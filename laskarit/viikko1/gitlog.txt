@@ -1,0 +1,113 @@
+commit 6c81e2c61d6c915956bf01496f031bc595d95073
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:59:51 2019 +0200
+
+    com
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 2917ede08c68fd3e153c387d591c59288f97278b
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:57:14 2019 +0200
+
+    a
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 735d062d7456bdd4c08a517ca14d09668d1070d9
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:54:54 2019 +0200
+
+    com
+
+ eka.txt    | 7 ++-----
+ kolmas.txt | 6 +++++-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+commit 48a953b8184e8887f3affb5b7bfa514dc179981e
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:53:03 2019 +0200
+
+    muutos
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ac04cb1016e620ad84e15f23f3f37cc254071fee
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:52:26 2019 +0200
+
+    poisto
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 6a1b6a7dabb73b0d312149a5301b1369d7b68664
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:51:42 2019 +0200
+
+    muutos
+
+ tiedosto.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 327f8bc7683dd1f471bcc5016aa9791ef8ef7f88
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:51:10 2019 +0200
+
+    asd
+
+ tiedosto.txt | 109 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
+
+commit 8b8bea986f09f2b2c515150bf0b0053a9be36272
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:49:41 2019 +0200
+
+    kansio
+
+ stuff/tiedosto | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 083c14745a560de4600a4d1e5f7a023f1681aae8
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:49:24 2019 +0200
+
+    Muutos
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 458d96a739a74814efc28f9b7183914e6f4ede0d
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:48:50 2019 +0200
+
+    kolmas
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 0a8fe4b6e582067bba7fc14baa882651a380f99a
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:47:05 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 45b29a6378cf35ae261e944c7403ed61ec5a97bd
+Author: ArktinenKarpalo <arktinenkarpalo@gmail.com>
+Date:   Sun Nov 3 14:45:59 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)

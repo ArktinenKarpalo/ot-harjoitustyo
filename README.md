@@ -12,3 +12,5 @@
 ### Viikko 2
 
 [Testikattavuus](https://github.com/ArktinenKarpalo/ot-harjoitustyo/blob/master/laskarit/viikko2/testikattavuus.png)
+
+[Vaatimusmäärittely](https://github.com/ArktinenKarpalo/ot-harjoitustyo/blob/master/harjoitustyo/docs/vaatimusmarittely.md)

@@ -58,11 +58,11 @@ public class Sprite  implements Drawable {
 		this.z = z;
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(float x, float y) {
 		position = new Vector2f(x, y);
 	}
 
-	public void move(int x, int y) {
+	public void move(float x, float y) {
 		position.add(x, y);
 	}
 

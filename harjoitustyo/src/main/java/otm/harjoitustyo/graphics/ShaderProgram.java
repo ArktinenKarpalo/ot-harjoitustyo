@@ -78,7 +78,8 @@ public class ShaderProgram {
 	private String shaderSource(String path) {
 		String source = "";
 		try {
-			List<String> contents = Files.readAllLines(Paths.get(ClassLoader.getSystemClassLoader().getResource(path).getPath()));
+			List<String> contents = Files.readAllLines(Paths.get(this.getClass().getResource("/"+path).getPath()));
+
 			source = String.join("\n", contents);
 		} catch(IOException e) {
 			e.printStackTrace();

@@ -51,7 +51,7 @@ public class Texture {
 		IntBuffer comp = memAllocInt(1);
 
 		STBImage.stbi_set_flip_vertically_on_load(false);
-		ByteBuffer texBuf = STBImage.stbi_load(ClassLoader.getSystemClassLoader().getResource(path).getPath(), w, h, comp, STBImage.STBI_rgb_alpha);
+		ByteBuffer texBuf = STBImage.stbi_load(this.getClass().getResource("/"+path).getPath(), w, h, comp, STBImage.STBI_rgb_alpha);
 		width = w.get();
 		height = h.get();
 

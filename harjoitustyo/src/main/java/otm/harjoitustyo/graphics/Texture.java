@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_BGR;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
@@ -21,6 +22,14 @@ public class Texture {
 	public Texture(String path) {
 		name = path;
 		loadTexture(path);
+	}
+
+	// texbuf color format BGR
+	public Texture(ByteBuffer texBuf, int height, int width, String name) {
+		this.name = name;
+		this.width = width;
+		this.height = height;
+		loadTexture(texBuf);
 	}
 
 	// Unloads the texture from GPU memory
@@ -66,6 +75,17 @@ public class Texture {
 		memFree(w);
 		memFree(h);
 		memFree(comp);
+
+		textureId = id;
+	}
+
+	// texbuf color format BGR
+	private void loadTexture(ByteBuffer texBuf) {
+		int id = glGenTextures();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, texBuf);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		textureId = id;
 	}

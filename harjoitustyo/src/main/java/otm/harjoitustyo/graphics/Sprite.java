@@ -40,7 +40,7 @@ public class Sprite  implements Drawable {
 		if(texture.getHeight() > texture.getWidth()) {
 			scale = new Vector2f(1.0f * texture.getWidth()/texture.getHeight(), 1);
 		} else {
-			scale = new Vector2f(1, 1.0f * texture.getWidth()/texture.getHeight());
+			scale = new Vector2f(1, 1.0f * texture.getHeight()/texture.getWidth());
 		}
 		scale.mul(size);
 	}

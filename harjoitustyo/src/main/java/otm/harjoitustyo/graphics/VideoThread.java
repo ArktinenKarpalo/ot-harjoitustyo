@@ -65,9 +65,11 @@ public class VideoThread extends MediaListenerAdapter implements Runnable {
 		bi = event.getImage();
 		height = bi.getHeight();
 		width = bi.getWidth();
+
 		texBuf = memAlloc(width * height * 3);
-		texBuf.put(((DataBufferByte)bi.getData().getDataBuffer()).getData());
+		texBuf.put(((DataBufferByte)bi.getRaster().getDataBuffer()).getData());
 		texBuf.flip();
+
 		synchronized(this) {
 			ready = true;
 			this.notifyAll();

@@ -39,6 +39,8 @@ public class Game {
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
 		window = glfwCreateWindow(1280, 720, "OTM-Harjoitustyö", NULL, NULL);
 		if(window == NULL)

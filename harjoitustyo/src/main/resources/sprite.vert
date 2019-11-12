@@ -1,4 +1,4 @@
-#version 450 core
+#version 330 core
 layout (location = 0) in vec4 vertex; // pos_x, pos_y, tex_x, tex_y
 
 out vec2 TexCoord;

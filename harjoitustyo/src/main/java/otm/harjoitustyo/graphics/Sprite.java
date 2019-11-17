@@ -53,6 +53,15 @@ public class Sprite  implements Drawable {
 		return z;
 	}
 
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+		setSize(size);
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
 	// r, g, b should be between 0-255
 	public void setColor(int r, int g, int b, int a) {
 		this.color = new Vector4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f);

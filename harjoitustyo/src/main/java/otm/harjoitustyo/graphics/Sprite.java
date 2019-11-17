@@ -2,9 +2,7 @@ package otm.harjoitustyo.graphics;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-
-import java.util.Vector;
+import org.joml.Vector4f;
 
 import static org.lwjgl.opengl.GL45.*;
 
@@ -22,7 +20,7 @@ public class Sprite  implements Drawable {
 	};
 
 	private float rotation = 0; // Angle in degrees
-	private Vector3f color;
+	private Vector4f color;
 	private Vector2f scale, position;
 	private Texture texture;
 	private int VAO, VBO;
@@ -31,7 +29,7 @@ public class Sprite  implements Drawable {
 	public Sprite(Texture texture) {
 		this.texture = texture;
 		position = new Vector2f();
-		color = new Vector3f(1);
+		color = new Vector4f(1);
 		setSize(1);
 		initGL();
 	}
@@ -50,8 +48,8 @@ public class Sprite  implements Drawable {
 	}
 
 	// r, g, b should be between 0-255
-	public void setColor(int r, int g, int b) {
-		this.color = new Vector3f(r/255.0f, g/255.0f, b/255.0f);
+	public void setColor(int r, int g, int b, int a) {
+		this.color = new Vector4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f);
 	}
 
 	public void setZ(int z) {
@@ -108,7 +106,7 @@ public class Sprite  implements Drawable {
 		model.scale(scale.x, scale.y, 1);
 
 		ShaderManager.spriteShader.setUniformMatrix4f("model", model);
-		ShaderManager.spriteShader.setUniformVector3f("spriteColor", color);
+		ShaderManager.spriteShader.setUniformVector4f("spriteColor", color);
 
 		TextureManager.getInstance().useTexture(texture);
 

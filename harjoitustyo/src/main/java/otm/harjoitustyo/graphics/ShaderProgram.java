@@ -1,7 +1,7 @@
 package otm.harjoitustyo.graphics;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 
 import java.io.IOException;
@@ -52,10 +52,10 @@ public class ShaderProgram {
 		memFree(fb);
 	}
 
-	public void setUniformVector3f(String uniform, Vector3f vec) {
+	public void setUniformVector4f(String uniform, Vector4f vec) {
 		ShaderManager.getInstance().useShader(this);
 		int uniformLoc = glGetUniformLocation(shaderProgram, uniform);
-		glUniform3f(uniformLoc, vec.x, vec.y, vec.z);
+		glUniform4f(uniformLoc, vec.x, vec.y, vec.z, vec.w);
 	}
 
 	public int getShaderProgramId() {

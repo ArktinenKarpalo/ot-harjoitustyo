@@ -25,6 +25,7 @@ public class Sprite  implements Drawable {
 	private Texture texture;
 	private int VAO, VBO;
 	private int z = 0;
+	private float size;
 
 	public Sprite(Texture texture) {
 		this.texture = texture;
@@ -35,12 +36,17 @@ public class Sprite  implements Drawable {
 	}
 
 	public void setSize(float size) {
+		this.size = size;
 		if(texture.getHeight() > texture.getWidth()) {
 			scale = new Vector2f(1.0f * texture.getWidth()/texture.getHeight(), 1);
 		} else {
 			scale = new Vector2f(1, 1.0f * texture.getHeight()/texture.getWidth());
 		}
 		scale.mul(size);
+	}
+
+	public void setScale(int x, int y) {
+		this.scale = new Vector2f(x, y);
 	}
 
 	public int getZ() {

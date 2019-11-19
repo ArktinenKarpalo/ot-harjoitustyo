@@ -1,6 +1,8 @@
 package otm.harjoitustyo.graphics;
 
 import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryUtil;
+import otm.harjoitustyo.Resources;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -60,7 +62,10 @@ public class Texture {
 		IntBuffer comp = memAllocInt(1);
 
 		STBImage.stbi_set_flip_vertically_on_load(false);
-		ByteBuffer texBuf = STBImage.stbi_load(this.getClass().getResource("/"+path).getPath(), w, h, comp, STBImage.STBI_rgb_alpha);
+		ByteBuffer imgBuf = Resources.loadResourceAsByteBuffer(path);
+		ByteBuffer texBuf = STBImage.stbi_load_from_memory(imgBuf, w, h, comp, STBImage.STBI_rgb_alpha);
+		MemoryUtil.memFree(imgBuf);
+
 		width = w.get();
 		height = h.get();
 

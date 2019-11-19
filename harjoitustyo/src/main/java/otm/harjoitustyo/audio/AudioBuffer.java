@@ -1,10 +1,15 @@
 package otm.harjoitustyo.audio;
 
+import org.lwjgl.system.MemoryUtil;
+import otm.harjoitustyo.Resources;
+
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_memory;
 import static org.lwjgl.system.MemoryUtil.memAllocInt;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
@@ -33,7 +38,9 @@ public class AudioBuffer {
 		IntBuffer channelsBuf = memAllocInt(1);
 		IntBuffer sampleBuf = memAllocInt(1);
 
-		rawAudioBuffer = stb_vorbis_decode_filename(this.getClass().getResource("/" + path).getPath(), channelsBuf, sampleBuf);
+		ByteBuffer fileBuf = Resources.loadResourceAsByteBuffer(path);
+		rawAudioBuffer = stb_vorbis_decode_memory(fileBuf, channelsBuf, sampleBuf);
+		MemoryUtil.memFree(fileBuf);
 
 		int channels = channelsBuf.get(0);
 		int sampleRate = sampleBuf.get(0);

@@ -3,6 +3,7 @@ package otm.harjoitustyo.graphics;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
+import otm.harjoitustyo.Resources;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -76,14 +77,6 @@ public class ShaderProgram {
 	}
 
 	private String shaderSource(String path) {
-		String source = "";
-		try {
-			List<String> contents = Files.readAllLines(Paths.get(this.getClass().getResource("/"+path).getPath()));
-
-			source = String.join("\n", contents);
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		return source;
+		return Resources.loadResourceAsString(path);
 	}
 }

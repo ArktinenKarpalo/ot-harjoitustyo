@@ -38,7 +38,7 @@ public class AudioBuffer {
 		int channels = channelsBuf.get(0);
 		int sampleRate = sampleBuf.get(0);
 
-		duration = rawAudioBuffer.capacity()/(channels*sampleRate);
+		duration = (int)Math.ceil(rawAudioBuffer.capacity()/((channels*sampleRate)/1000.0));
 
 		memFree(channelsBuf);
 		memFree(sampleBuf);

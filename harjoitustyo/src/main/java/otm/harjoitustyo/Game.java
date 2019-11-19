@@ -1,10 +1,12 @@
 package otm.harjoitustyo;
 
-import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import otm.harjoitustyo.graphics.*;
+import otm.harjoitustyo.audio.AudioManager;
+import otm.harjoitustyo.graphics.Renderer;
+import otm.harjoitustyo.level.Level;
+import otm.harjoitustyo.level.LevelManager;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,6 +16,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Game {
 
 	private long window;
+	LevelManager lm;
 
 	public Game() {
 	}
@@ -28,6 +31,8 @@ public class Game {
 
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
+
+		AudioManager.getInstance().close();
 	}
 
 	private void init() {
@@ -49,6 +54,8 @@ public class Game {
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
 				glfwSetWindowShouldClose(window, true);
+			if(lm != null && lm.isRunning())
+				lm.handleInput(window, key, scancode, action, mods);
 		});
 
 		// Center the window
@@ -58,7 +65,7 @@ public class Game {
 		glfwMakeContextCurrent(window);
 
 		// Vsync
-		glfwSwapInterval(1);
+		glfwSwapInterval(0);
 
 		glfwShowWindow(window);
 
@@ -74,9 +81,16 @@ public class Game {
 		double prevTime = glfwGetTime();
 		int frames = 0;
 
+		Level testLevel = new Level();
+		lm = new LevelManager(testLevel);
+		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			if(lm.isRunning())
+				lm.loopLevel();
+			else
+				break;
 			Renderer.getInstance().drawAll();
 
 			glfwSwapBuffers(window);

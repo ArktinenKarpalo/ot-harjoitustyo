@@ -22,8 +22,8 @@ import static org.lwjgl.system.MemoryUtil.memFree;
  * 1. Extract the next frame from the video
  * 2. Possibly skip the frame and go to 1
  * 3. ready = true
- * 4. Notify all objects waiting for VideoThread object
- * 5. Wait for VideoThread object to get notified
+ * 4. Notify all objects waiting for VideoDecoder object
+ * 5. Wait for VideoDecoder object to get notified
  * 6. Immediately delete the texture buffer containing
  * 	the frame, ready = false, go to 1
  *
@@ -31,38 +31,52 @@ import static org.lwjgl.system.MemoryUtil.memFree;
  * 	sent to GPU or copied before notifying the thread to process the next frame.
  */
 
-public class VideoThread extends MediaListenerAdapter implements Runnable {
+public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 
-	private BufferedImage bi = null;
 	public ByteBuffer texBuf;
 	public int height, width;
 	public boolean ready = false;
-	private boolean stop = false;
+	public boolean stop = false;
 	private String videoPath;
+	public double frameRate = -1;
 
 	public int skipNFrames = 0;
 	private int skipFramesRemaining = 0;
+	public int currentFrame;
 
-	public VideoThread(String videoPath) {
+	public VideoDecoder(String videoPath) {
 		this.videoPath = videoPath;
 	}
 
 	@Override
 	public void run() {
-		while(true && !stop) {
+		while(true) {
+			synchronized(this) {
+				if(stop)
+					break;
+			}
+			currentFrame = 1;
 			IMediaReader reader = ToolFactory.makeReader(this.getClass().getResource("/"+videoPath).getPath());
 			reader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 			reader.addListener(this);
-			while(reader.readPacket() == null && !stop);
+			while(reader.readPacket() == null) {
+				synchronized(this) {
+					if(stop)
+						break;
+				}
+				if(frameRate == -1)
+					frameRate = reader.getContainer().getStream(0).getFrameRate().getDouble();
+			}
 		}
 	}
 
 	public void onVideoPicture(IVideoPictureEvent event) {
+		currentFrame++;
 		if(skipFramesRemaining > 0) {
 			skipFramesRemaining--;
 			return;
 		}
-		bi = event.getImage();
+		BufferedImage bi = event.getImage();
 		height = bi.getHeight();
 		width = bi.getWidth();
 
@@ -71,6 +85,11 @@ public class VideoThread extends MediaListenerAdapter implements Runnable {
 		texBuf.flip();
 
 		synchronized(this) {
+			if(stop) {
+				memFree(texBuf);
+				this.notifyAll();
+				return;
+			}
 			ready = true;
 			this.notifyAll();
 			try {
@@ -79,7 +98,7 @@ public class VideoThread extends MediaListenerAdapter implements Runnable {
 				e.printStackTrace();
 			}
 			ready = false;
-			skipFramesRemaining = skipNFrames;
+			skipFramesRemaining += skipNFrames;
 			skipNFrames = 0;
 		}
 		memFree(texBuf);

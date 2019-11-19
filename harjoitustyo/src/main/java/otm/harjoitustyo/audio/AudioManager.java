@@ -76,10 +76,10 @@ public class AudioManager {
 
 	private void initAL() {
 		String defaultDeviceName =  alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
-		long device = alcOpenDevice(defaultDeviceName);
+		device = alcOpenDevice(defaultDeviceName);
 
 		int[] attr = {0};
-		long context = alcCreateContext(device, attr);
+		context = alcCreateContext(device, attr);
 
 		alcMakeContextCurrent(context);
 

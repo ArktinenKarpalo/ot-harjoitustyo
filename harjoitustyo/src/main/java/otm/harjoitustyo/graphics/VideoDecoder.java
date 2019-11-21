@@ -4,9 +4,11 @@ import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.MediaListenerAdapter;
 import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
+import otm.harjoitustyo.Resources;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.system.MemoryUtil.memAlloc;
@@ -56,7 +58,7 @@ public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 					break;
 			}
 			currentFrame = 1;
-			IMediaReader reader = ToolFactory.makeReader(this.getClass().getResource("/"+videoPath).getPath());
+			IMediaReader reader = ToolFactory.makeReader(Resources.getResourceAsTemporaryFile(videoPath).getPath());
 			reader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 			reader.addListener(this);
 			while(reader.readPacket() == null) {

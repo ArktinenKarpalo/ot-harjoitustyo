@@ -4,6 +4,9 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.stream.Collectors;
 
 public class Resources {
@@ -39,5 +42,19 @@ public class Resources {
 
 	public static InputStream getResourceAsInputStream(String path) {
 		return Resources.class.getResourceAsStream("/" + path);
+	}
+
+	// The file is deleted when the application is closed
+	public static File getResourceAsTemporaryFile(String path) {
+		InputStream is = Resources.class.getResourceAsStream("/" + path);
+		File tempFile = null;
+		try {
+			tempFile = File.createTempFile("otm_temp_" + path, null);
+			Files.copy(is, Paths.get(tempFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return tempFile;
+
 	}
 }

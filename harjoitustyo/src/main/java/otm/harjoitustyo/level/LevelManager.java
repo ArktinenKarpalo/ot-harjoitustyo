@@ -1,5 +1,6 @@
 package otm.harjoitustyo.level;
 
+import org.lwjgl.opengl.GL12;
 import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.*;
 
@@ -10,8 +11,11 @@ public class LevelManager {
 	private Level level;
 	private long startTime, duration;
 	boolean running;
+	long score = 0;
 
 	private VideoDecoder videoDecoder;
+
+	private Text scoreText;
 
 	Sprite background;
 	Sprite[] levelEventSprites;
@@ -30,6 +34,12 @@ public class LevelManager {
 
 	public boolean isRunning() {
 		return running;
+	}
+
+	// accuracy = missed by x milliseconds
+	public int eventScore(int accuracy) {
+		int score = 1000-Math.abs(accuracy);
+		return Math.max(score, 0);
 	}
 
 	public void loadLevel() {
@@ -57,7 +67,6 @@ public class LevelManager {
 			Renderer.getInstance().addDrawable(keyPressIndicators[i]);
 		}
 
-
 		levelEventSprites = new Sprite[level.levelEvents.length];
 		for(int i=0; i<level.levelEvents.length; i++) {
 			if(level.levelEvents[i].type == LevelEventType.KEY_DOWN) {
@@ -80,6 +89,11 @@ public class LevelManager {
 				Renderer.getInstance().addDrawable(levelEventSprites[i]);
 			}
 		}
+
+		scoreText = new Text("0", "OpenSans-Regular.ttf", 72, 1, 1001);
+		scoreText.setColor(0, 0, 0, 255);
+		scoreText.setPosition(50, 80);
+		Renderer.getInstance().addDrawable(scoreText);
 
 		this.duration = AudioManager.getInstance().loadFile(level.musicPath).getDuration();
 		AudioManager.getInstance().playAudio(level.musicPath);
@@ -110,7 +124,7 @@ public class LevelManager {
 					}
 				}
 				background.getTexture().deleteTexture();
-				background.setTexture(new Texture(videoDecoder.texBuf, videoDecoder.height, videoDecoder.width, "frame"));
+				background.setTexture(new Texture(videoDecoder.texBuf, videoDecoder.height, videoDecoder.width, GL12.GL_BGR));
 				int expectedFrame = (int)Math.floor(((now-startTime)/1000.0)* videoDecoder.frameRate);
 				if(expectedFrame > videoDecoder.currentFrame) {
 					if(expectedFrame - videoDecoder.currentFrame > 2) {
@@ -157,6 +171,13 @@ public class LevelManager {
 			past--;
 		}
 		if(closestEvent != null && Math.abs((now-startTime)-closestEvent.time) < 1500) {
+			score += eventScore(Math.round(closestEvent.time - (now-startTime)));
+			Renderer.getInstance().deleteDrawable(scoreText);
+			scoreText = new Text(Long.toString(score), "OpenSans-Regular.ttf", 72, 1, 1001);
+			scoreText.setPosition(50, 80);
+			scoreText.setColor(0, 0, 0, 255);
+			Renderer.getInstance().addDrawable(scoreText);
+
 			System.out.println(Math.abs(closestEvent.time - (now-startTime)) + " and " + closestEvent.time + " "  + closestEvent.type + closestEvent.consumed);
 			closestEvent.consumed = true;
 		}
@@ -208,5 +229,7 @@ public class LevelManager {
 			if(keyPressIndicators[i] != null)
 				Renderer.getInstance().deleteDrawable(keyPressIndicators[i]);
 		Renderer.getInstance().deleteDrawable(background);
+
+		Renderer.getInstance().deleteDrawable(scoreText);
 	}
 }

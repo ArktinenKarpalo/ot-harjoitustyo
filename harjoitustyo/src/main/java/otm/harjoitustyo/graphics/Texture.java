@@ -26,12 +26,11 @@ public class Texture {
 		loadTexture(path);
 	}
 
-	// texbuf color format BGR
-	public Texture(ByteBuffer texBuf, int height, int width, String name) {
-		this.name = name;
+	// pixelFormat = OpenGL color pixelformat ie. BGR
+	public Texture(ByteBuffer texBuf, int height, int width, int pixelFormat) {
 		this.width = width;
 		this.height = height;
-		loadTexture(texBuf);
+		loadTexture(texBuf, pixelFormat);
 	}
 
 	// Unloads the texture from GPU memory
@@ -85,11 +84,11 @@ public class Texture {
 	}
 
 	// texbuf color format BGR
-	private void loadTexture(ByteBuffer texBuf) {
+	private void loadTexture(ByteBuffer texBuf, int pixelFormat) {
 		int id = glGenTextures();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, texBuf);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, texBuf);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		textureId = id;

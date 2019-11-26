@@ -1,5 +1,6 @@
 package otm.harjoitustyo.graphics;
 
+import com.sun.prism.ps.Shader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -26,8 +27,19 @@ public class Sprite  implements Drawable {
 	private int VAO, VBO;
 	private int z = 0;
 	private float size;
+	private ShaderProgram shaderProgram;
 
 	public Sprite(Texture texture) {
+		this.shaderProgram = ShaderManager.spriteShader;
+		this.texture = texture;
+		position = new Vector2f();
+		color = new Vector4f(1);
+		setSize(1);
+		initGL();
+	}
+
+	public Sprite(Texture texture, ShaderProgram shaderProgram) {
+		this.shaderProgram = shaderProgram;
 		this.texture = texture;
 		position = new Vector2f();
 		color = new Vector4f(1);
@@ -109,7 +121,7 @@ public class Sprite  implements Drawable {
 
 	@Override
 	public void draw() {
-		ShaderManager.getInstance().useShader(ShaderManager.spriteShader);
+		ShaderManager.getInstance().useShader(shaderProgram);
 
 		Matrix4f model = new Matrix4f();
 		model.translate(position.x, position.y, 0);
@@ -120,8 +132,8 @@ public class Sprite  implements Drawable {
 
 		model.scale(scale.x, scale.y, 1);
 
-		ShaderManager.spriteShader.setUniformMatrix4f("model", model);
-		ShaderManager.spriteShader.setUniformVector4f("spriteColor", color);
+		shaderProgram.setUniformMatrix4f("model", model);
+		shaderProgram.setUniformVector4f("spriteColor", color);
 
 		TextureManager.getInstance().useTexture(texture);
 

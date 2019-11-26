@@ -55,6 +55,5 @@ public class Resources {
 			e.printStackTrace();
 		}
 		return tempFile;
-
 	}
 }

@@ -73,6 +73,9 @@ public class Game {
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		Renderer.getInstance();
 	}
 
 	private void loop() {
@@ -86,7 +89,6 @@ public class Game {
 		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			if(lm.isRunning())
 				lm.loopLevel();
 			else

@@ -15,6 +15,6 @@ public class LevelEvent implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		return Long.compare(time, ((LevelEvent)o).time);
+		return Long.compare(time, ((LevelEvent) o).time);
 	}
 }

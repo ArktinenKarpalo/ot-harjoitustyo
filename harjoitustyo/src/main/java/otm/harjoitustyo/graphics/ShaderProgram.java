@@ -1,20 +1,34 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.opengl.GL45.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL45.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL45.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL45.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL45.glAttachShader;
+import static org.lwjgl.opengl.GL45.glCompileShader;
+import static org.lwjgl.opengl.GL45.glCreateProgram;
+import static org.lwjgl.opengl.GL45.glCreateShader;
+import static org.lwjgl.opengl.GL45.glDeleteShader;
+import static org.lwjgl.opengl.GL45.glGetProgramInfoLog;
+import static org.lwjgl.opengl.GL45.glGetProgramiv;
+import static org.lwjgl.opengl.GL45.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL45.glGetShaderiv;
+import static org.lwjgl.opengl.GL45.glGetUniformLocation;
+import static org.lwjgl.opengl.GL45.glLinkProgram;
+import static org.lwjgl.opengl.GL45.glShaderSource;
+import static org.lwjgl.opengl.GL45.glUniform4f;
+import static org.lwjgl.opengl.GL45.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL45.glUseProgram;
+import static org.lwjgl.system.MemoryUtil.memAllocFloat;
+import static org.lwjgl.system.MemoryUtil.memFree;
+
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import otm.harjoitustyo.Resources;
-
-import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
-import static org.lwjgl.opengl.GL45.*;
-import static org.lwjgl.system.MemoryUtil.memAllocFloat;
-import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class ShaderProgram {
 
@@ -40,7 +54,7 @@ public class ShaderProgram {
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, success);
 
 		if(success.get(0) == 0) {
-			System.out.println("Failed to link shader "+ vertexShaderPath + ", " + fragmentShaderPath + ": " + glGetProgramInfoLog(shaderProgram));
+			System.out.println("Failed to link shader " + vertexShaderPath + ", " + fragmentShaderPath + ": " + glGetProgramInfoLog(shaderProgram));
 		}
 	}
 
@@ -72,7 +86,7 @@ public class ShaderProgram {
 		glGetShaderiv(shaderId, GL_COMPILE_STATUS, success);
 
 		if(success.get(0) == 0) {
-			System.out.println("Failed to create shader "+ sourcePath + ": "+ glGetShaderInfoLog(shaderId));
+			System.out.println("Failed to create shader " + sourcePath + ": " + glGetShaderInfoLog(shaderId));
 		}
 	}
 

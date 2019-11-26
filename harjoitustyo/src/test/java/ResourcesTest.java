@@ -1,7 +1,3 @@
-import org.junit.Assert;
-import org.junit.Test;
-import otm.harjoitustyo.Resources;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,11 +5,14 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
+import org.junit.Assert;
+import org.junit.Test;
+import otm.harjoitustyo.Resources;
 
 public class ResourcesTest {
 
 	private String testResourceContent = "Test1\n" +
-			"Test2";
+		"Test2";
 
 	@Test
 	public void readResourceAsString() {

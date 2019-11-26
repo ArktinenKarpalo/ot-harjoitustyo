@@ -1,7 +1,9 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.opengl.GL45.glUseProgram;
+
+
 import org.joml.Matrix4f;
-import static org.lwjgl.opengl.GL45.*;
 
 public class ShaderManager {
 

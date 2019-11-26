@@ -1,17 +1,20 @@
 package otm.harjoitustyo.audio;
 
-import org.lwjgl.system.MemoryUtil;
-import otm.harjoitustyo.Resources;
+import static org.lwjgl.openal.AL10.AL_FORMAT_MONO16;
+import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
+import static org.lwjgl.openal.AL10.alBufferData;
+import static org.lwjgl.openal.AL10.alDeleteBuffers;
+import static org.lwjgl.openal.AL10.alGenBuffers;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_memory;
+import static org.lwjgl.system.MemoryUtil.memAllocInt;
+import static org.lwjgl.system.MemoryUtil.memFree;
+
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-
-import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
-import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_memory;
-import static org.lwjgl.system.MemoryUtil.memAllocInt;
-import static org.lwjgl.system.MemoryUtil.memFree;
+import org.lwjgl.system.MemoryUtil;
+import otm.harjoitustyo.Resources;
 
 public class AudioBuffer {
 
@@ -45,7 +48,7 @@ public class AudioBuffer {
 		int channels = channelsBuf.get(0);
 		int sampleRate = sampleBuf.get(0);
 
-		duration = (int)Math.ceil(rawAudioBuffer.capacity()/((channels*sampleRate)/1000.0));
+		duration = (int) Math.ceil(rawAudioBuffer.capacity() / ((channels * sampleRate) / 1000.0));
 
 		memFree(channelsBuf);
 		memFree(sampleBuf);

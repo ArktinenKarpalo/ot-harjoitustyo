@@ -1,16 +1,26 @@
 package otm.harjoitustyo.audio;
 
-import org.lwjgl.openal.AL;
-import org.lwjgl.openal.ALC;
-import org.lwjgl.openal.ALCCapabilities;
-import org.lwjgl.openal.ALCapabilities;
+import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.alDeleteSources;
+import static org.lwjgl.openal.AL10.alGenSources;
+import static org.lwjgl.openal.AL10.alSourcePlay;
+import static org.lwjgl.openal.AL10.alSourcei;
+import static org.lwjgl.openal.ALC10.ALC_DEFAULT_DEVICE_SPECIFIER;
+import static org.lwjgl.openal.ALC10.alcCloseDevice;
+import static org.lwjgl.openal.ALC10.alcCreateContext;
+import static org.lwjgl.openal.ALC10.alcDestroyContext;
+import static org.lwjgl.openal.ALC10.alcGetString;
+import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
+import static org.lwjgl.openal.ALC10.alcOpenDevice;
+
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
-
-import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.openal.ALC10.*;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 
 public class AudioManager {
 
@@ -53,7 +63,7 @@ public class AudioManager {
 		AudioBuffer buf = loadFile(path);
 		int sourcePointer = alGenSources();
 		alSourcei(sourcePointer, AL_BUFFER, buf.getBufferPointer());
-		sourcePointerRemoves.add(new SourcePointerPair(System.currentTimeMillis() + buf.getDuration()*1000 + 1000, sourcePointer));
+		sourcePointerRemoves.add(new SourcePointerPair(System.currentTimeMillis() + buf.getDuration() * 1000 + 1000, sourcePointer));
 		alSourcePlay(sourcePointer);
 	}
 
@@ -62,7 +72,7 @@ public class AudioManager {
 		AudioBuffer buf = audioBuffers.get(path);
 		if(buf == null) {
 			buf = new AudioBuffer(path);
-			audioBuffers.put(path,buf);
+			audioBuffers.put(path, buf);
 		}
 		return buf;
 	}
@@ -70,12 +80,13 @@ public class AudioManager {
 	// Free the memory used by the given buffer
 	public void removeBuffer(String path) {
 		AudioBuffer buf = audioBuffers.remove(path);
-		if(buf != null)
+		if(buf != null) {
 			buf.delete();
+		}
 	}
 
 	private void initAL() {
-		String defaultDeviceName =  alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+		String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
 		device = alcOpenDevice(defaultDeviceName);
 
 		int[] attr = {0};

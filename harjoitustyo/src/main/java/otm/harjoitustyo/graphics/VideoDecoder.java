@@ -1,25 +1,24 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.system.MemoryUtil.memAlloc;
+import static org.lwjgl.system.MemoryUtil.memFree;
+
+
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.MediaListenerAdapter;
 import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
-import otm.harjoitustyo.Resources;
-
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.File;
 import java.nio.ByteBuffer;
-
-import static org.lwjgl.system.MemoryUtil.memAlloc;
-import static org.lwjgl.system.MemoryUtil.memFree;
+import otm.harjoitustyo.Resources;
 
 /**
  * Video thread is used to extract frames from
  * a video file and prepare them to format that can
  * be given directly to the OpenGL in the
  * thread that rendering is done in.
- *
+ * <p>
  * Video thread will continuously loop the frames of the video
  * 1. Extract the next frame from the video
  * 2. Possibly skip the frame and go to 1
@@ -27,10 +26,10 @@ import static org.lwjgl.system.MemoryUtil.memFree;
  * 4. Notify all objects waiting for VideoDecoder object
  * 5. Wait for VideoDecoder object to get notified
  * 6. Immediately delete the texture buffer containing
- * 	the frame, ready = false, go to 1
- *
- * 	Because of 6. the buffer containing the frame should be
- * 	sent to GPU or copied before notifying the thread to process the next frame.
+ * the frame, ready = false, go to 1
+ * <p>
+ * Because of 6. the buffer containing the frame should be
+ * sent to GPU or copied before notifying the thread to process the next frame.
  */
 
 public class VideoDecoder extends MediaListenerAdapter implements Runnable {
@@ -54,8 +53,9 @@ public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 	public void run() {
 		while(true) {
 			synchronized(this) {
-				if(stop)
+				if(stop) {
 					break;
+				}
 			}
 			currentFrame = 1;
 			IMediaReader reader = ToolFactory.makeReader(Resources.getResourceAsTemporaryFile(videoPath).getPath());
@@ -63,11 +63,13 @@ public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 			reader.addListener(this);
 			while(reader.readPacket() == null) {
 				synchronized(this) {
-					if(stop)
+					if(stop) {
 						break;
+					}
 				}
-				if(frameRate == -1)
+				if(frameRate == -1) {
 					frameRate = reader.getContainer().getStream(0).getFrameRate().getDouble();
+				}
 			}
 		}
 	}
@@ -83,7 +85,7 @@ public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 		width = bi.getWidth();
 
 		texBuf = memAlloc(width * height * 3);
-		texBuf.put(((DataBufferByte)bi.getRaster().getDataBuffer()).getData());
+		texBuf.put(((DataBufferByte) bi.getRaster().getDataBuffer()).getData());
 		texBuf.flip();
 
 		synchronized(this) {

@@ -32,13 +32,13 @@ public class Renderer {
 	public void drawAll() {
 		Drawable[] drawList = new Drawable[drawables.size()];
 		Iterator<Drawable> it = drawables.iterator();
-		for(int i = 0; i<drawables.size(); i++) {
+		for(int i = 0; i < drawables.size(); i++) {
 			drawList[i] = it.next();
 		}
 
 		Arrays.sort(drawList, Comparator.comparingInt((drawable) -> drawable.getZ()));
 
-		for(int i=0; i<drawList.length; i++) {
+		for(int i = 0; i < drawList.length; i++) {
 			drawList[i].draw();
 		}
 	}

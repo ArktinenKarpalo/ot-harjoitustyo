@@ -1,5 +1,46 @@
 package otm.harjoitustyo;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MINOR;
+import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
+import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
+import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
+import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+import static org.lwjgl.glfw.GLFW.glfwInit;
+import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.glfwShowWindow;
+import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
+import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowHint;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glPixelStorei;
+import static org.lwjgl.system.MemoryUtil.NULL;
+
+
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -7,11 +48,6 @@ import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.level.Level;
 import otm.harjoitustyo.level.LevelManager;
-
-import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Game {
 
@@ -38,8 +74,9 @@ public class Game {
 	private void init() {
 		GLFWErrorCallback.createPrint(System.err).set();
 
-		if(!glfwInit())
+		if(!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
+		}
 
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -48,19 +85,22 @@ public class Game {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
 		window = glfwCreateWindow(1280, 720, "OTM-Harjoitustyö", NULL, NULL);
-		if(window == NULL)
+		if(window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
+		}
 
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+			if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
 				glfwSetWindowShouldClose(window, true);
-			if(lm != null && lm.isRunning())
+			}
+			if(lm != null && lm.isRunning()) {
 				lm.handleInput(window, key, scancode, action, mods);
+			}
 		});
 
 		// Center the window
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(window, (vidmode.width() - 1280)/2, (vidmode.height() - 720)/2);
+		glfwSetWindowPos(window, (vidmode.width() - 1280) / 2, (vidmode.height() - 720) / 2);
 
 		glfwMakeContextCurrent(window);
 
@@ -89,10 +129,11 @@ public class Game {
 		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			if(lm.isRunning())
+			if(lm.isRunning()) {
 				lm.loopLevel();
-			else
+			} else {
 				break;
+			}
 			Renderer.getInstance().drawAll();
 
 			glfwSwapBuffers(window);
@@ -100,8 +141,8 @@ public class Game {
 			glfwPollEvents(); // Process input
 
 			double now = glfwGetTime();
-			if(now-prevTime >= 1.0) {
-				System.out.println("FPS: " + frames/(now-prevTime));
+			if(now - prevTime >= 1.0) {
+				System.out.println("FPS: " + frames / (now - prevTime));
 				prevTime = glfwGetTime();
 				frames = 0;
 			}

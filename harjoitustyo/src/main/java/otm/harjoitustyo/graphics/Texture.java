@@ -1,19 +1,24 @@
 package otm.harjoitustyo.graphics;
 
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryUtil;
-import otm.harjoitustyo.Resources;
-
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.GL_BGR;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.system.MemoryUtil.memAllocInt;
 import static org.lwjgl.system.MemoryUtil.memFree;
+
+
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryUtil;
+import otm.harjoitustyo.Resources;
 
 public class Texture {
 

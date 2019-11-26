@@ -8,3 +8,5 @@
 |12.11.|6h|Tasot|
 |17.11.|3h|Tasot|
 |19.11.|3h|Korjauksia + viikon 3 tavoitteita|
+|21.11.|½h|jar-pakkaus|
+|26.11.|4h|Teksti + viikon 4 deadline|

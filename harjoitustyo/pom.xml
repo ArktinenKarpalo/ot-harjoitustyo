@@ -42,6 +42,7 @@
 						<exclude>otm/harjoitustyo/Main*</exclude>
 						<exclude>otm/harjoitustyo/Game*</exclude>
 						<exclude>otm/harjoitustyo/level/LevelManager*</exclude>
+						<exclude>otm/harjoitustyo/level/Level*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

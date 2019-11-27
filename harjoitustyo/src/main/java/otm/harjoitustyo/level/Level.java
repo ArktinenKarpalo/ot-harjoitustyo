@@ -20,7 +20,7 @@ public class Level {
 		backgroundPath = "level1.mp4";
 		musicPath = "level1.ogg";
 		scrollingSpeed = 0.16f;
-		levelEvents = new LevelEvent[48];
+		levelEvents = new LevelEvent[43];
 		int i = 0;
 		levelEvents[i] = new LevelEvent(LevelEventType.KEY_PRESS, 0, 1825);
 		i++;
@@ -98,30 +98,21 @@ public class Level {
 		i++;
 		levelEvents[i] = new LevelEvent(LevelEventType.KEY_PRESS, 0, 21730);
 		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_DOWN, 0, 23030);
-		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_UP, 0, 23900);
+
+		levelEvents[i] = new LevelEvent(LevelEventType.KEY_HOLD, 0, 23030, 23900-23030);
 		i++;
 
-
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_DOWN, 1, 23900);
-		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_UP, 1, 24890);
+		levelEvents[i] = new LevelEvent(LevelEventType.KEY_HOLD, 1, 23900, 24890-23900);
 		i++;
 
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_DOWN, 2, 24890);
-		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_UP, 2, 25740);
+		levelEvents[i] = new LevelEvent(LevelEventType.KEY_HOLD, 2, 24890, 25740-24890);
 		i++;
 
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_DOWN, 3, 25740);
-		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_UP, 3, 26610);
+		levelEvents[i] = new LevelEvent(LevelEventType.KEY_HOLD, 3, 25740, 26610-25740);
 		i++;
 
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_DOWN, 2, 26620);
+		levelEvents[i] = new LevelEvent(LevelEventType.KEY_HOLD, 2, 26610, 27490-26610);
 		i++;
-		levelEvents[i] = new LevelEvent(LevelEventType.KEY_UP, 2, 27490);
 	}
 
 	public void init() {

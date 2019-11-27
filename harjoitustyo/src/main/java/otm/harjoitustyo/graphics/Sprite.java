@@ -40,6 +40,7 @@ public class Sprite implements Drawable {
 	private int z = 0;
 	private float size;
 	private ShaderProgram shaderProgram;
+	public boolean deleted = false;
 
 	public Sprite(Texture texture) {
 		this.shaderProgram = ShaderManager.spriteShader;
@@ -95,6 +96,10 @@ public class Sprite implements Drawable {
 		this.z = z;
 	}
 
+	public Vector2f getScale() {
+		return scale;
+	}
+
 	public void setPosition(float x, float y) {
 		position = new Vector2f(x, y);
 	}
@@ -130,6 +135,7 @@ public class Sprite implements Drawable {
 		glDeleteBuffers(vao);
 		glDeleteBuffers(vbo);
 		texture.references--;
+		deleted = true;
 	}
 
 	@Override

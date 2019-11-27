@@ -132,6 +132,7 @@ public class Game {
 		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {
 			if(frames == 1) {
+				AudioManager.getInstance().deleteOldAudioSources();
 				TextureManager.getInstance().deleteUnusedTextures();
 			}
 

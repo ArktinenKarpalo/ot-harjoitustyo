@@ -34,7 +34,12 @@ public class Text implements Drawable {
 			GlyphSlot gs = face.getGlyphSlot();
 			Bitmap bm = gs.getBitmap();
 
-			Texture charTex = new Texture(bm.getBuffer(), bm.getRows(), bm.getWidth(), GL12.GL_RED);
+			String textureName = fontName + "-" + text.charAt(i) + "-" + fontSize;
+			Texture charTex = TextureManager.getInstance().getTexture(textureName);
+			if(charTex == null) {
+				TextureManager.getInstance().setTexture(textureName, new Texture(bm.getBuffer(), bm.getRows(), bm.getWidth(), GL12.GL_RED));
+				charTex = TextureManager.getInstance().getTexture(textureName);
+			}
 			characters[i] = new Sprite(charTex, ShaderManager.textShader);
 			characters[i].setScale(bm.getWidth() * scale, bm.getRows() * scale);
 			characters[i].setPosition(xOffset + gs.getBitmapLeft(), yOffset - (gs.getBitmapTop()));
@@ -61,7 +66,6 @@ public class Text implements Drawable {
 	@Override
 	public void delete() {
 		for(int i = 0; i < characters.length; i++) {
-			characters[i].getTexture().deleteTexture();
 			characters[i].delete();
 		}
 	}

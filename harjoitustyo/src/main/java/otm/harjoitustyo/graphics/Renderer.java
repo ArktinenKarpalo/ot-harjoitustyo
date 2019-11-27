@@ -17,15 +17,14 @@ public class Renderer {
 
 	private Renderer() {
 		drawables = new HashSet<>();
-		ShaderManager.getInstance().initShaders();
 	}
 
 	public void addDrawable(Drawable drawable) {
 		drawables.add(drawable);
 	}
 
+	// Only deletes drawable from the render list, drawable must be deleted separately to free GPU resources
 	public void deleteDrawable(Drawable drawable) {
-		drawable.delete();
 		drawables.remove(drawable);
 	}
 

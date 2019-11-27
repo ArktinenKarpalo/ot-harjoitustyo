@@ -129,6 +129,7 @@ public class Sprite implements Drawable {
 	public void delete() {
 		glDeleteBuffers(vao);
 		glDeleteBuffers(vbo);
+		texture.references--;
 	}
 
 	@Override

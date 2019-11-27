@@ -63,14 +63,15 @@ public class LevelManager {
 		} else {
 			throw new Error("Background not implemented.");
 		}
-		background = new Sprite(new Texture("background_loading.png"));
+		TextureManager.getInstance().setTexture("frame", new Texture("background_loading.png"));
+		background = new Sprite(TextureManager.getInstance().getTexture("frame"));
 		background.setZ(-1000);
 		background.setSize(1280);
 		Renderer.getInstance().addDrawable(background);
 
 		keyPressIndicators = new Sprite[4];
 		for(int i = 0; i < 4; i++) {
-			keyPressIndicators[i] = new Sprite(TextureManager.getInstance().getTexture("bb.png"));
+			keyPressIndicators[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
 			keyPressIndicators[i].setSize(50);
 			keyPressIndicators[i].setPosition(keyX[i], keyY);
 			keyPressIndicators[i].setColor(200, 200, 50, 120);
@@ -81,7 +82,7 @@ public class LevelManager {
 		levelEventSprites = new Sprite[level.levelEvents.length];
 		for(int i = 0; i < level.levelEvents.length; i++) {
 			if(level.levelEvents[i].type == LevelEventType.KEY_DOWN) {
-				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getTexture("bb.png"));
+				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
 				levelEventSprites[i].setColor(0, 50, 150, 120);
 				// Slow, but usually fast enough TODO
 				for(int j = i; j < level.levelEvents.length; j++) {
@@ -92,7 +93,7 @@ public class LevelManager {
 				}
 				Renderer.getInstance().addDrawable(levelEventSprites[i]);
 			} else if(level.levelEvents[i].type == LevelEventType.KEY_PRESS) {
-				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getTexture("bb.png"));
+				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
 				levelEventSprites[i].setColor(0, 50, 150, 120);
 				levelEventSprites[i].setScale(20, 15);
 				Renderer.getInstance().addDrawable(levelEventSprites[i]);
@@ -132,8 +133,8 @@ public class LevelManager {
 						e.printStackTrace();
 					}
 				}
-				background.getTexture().deleteTexture();
-				background.setTexture(new Texture(videoDecoder.texBuf, videoDecoder.height, videoDecoder.width, GL12.GL_BGR));
+				TextureManager.getInstance().setTexture("frame", new Texture(videoDecoder.texBuf, videoDecoder.height, videoDecoder.width, GL12.GL_BGR));
+				background.setTexture(TextureManager.getInstance().getTexture("frame"));
 				int expectedFrame = (int) Math.floor(((now - startTime) / 1000.0) * videoDecoder.frameRate);
 				if(expectedFrame > videoDecoder.currentFrame) {
 					if(expectedFrame - videoDecoder.currentFrame > 2) {
@@ -184,6 +185,7 @@ public class LevelManager {
 		if(closestEvent != null && Math.abs((now - startTime) - closestEvent.time) < 1500) {
 			score += eventScore(Math.round(closestEvent.time - (now - startTime)));
 			Renderer.getInstance().deleteDrawable(scoreText);
+			scoreText.delete();
 			scoreText = new Text(Long.toString(score), "OpenSans-Regular.ttf", 72, 1, 1001);
 			scoreText.setPosition(50, 80);
 			scoreText.setColor(0, 0, 0, 255);

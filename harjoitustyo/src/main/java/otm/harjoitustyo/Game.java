@@ -46,6 +46,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.Renderer;
+import otm.harjoitustyo.graphics.ShaderManager;
+import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.level.Level;
 import otm.harjoitustyo.level.LevelManager;
 
@@ -116,6 +118,7 @@ public class Game {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		Renderer.getInstance();
+		ShaderManager.getInstance().initShaders();
 	}
 
 	private void loop() {
@@ -128,6 +131,10 @@ public class Game {
 		lm = new LevelManager(testLevel);
 		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {
+			if(frames == 1) {
+				TextureManager.getInstance().deleteUnusedTextures();
+			}
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			if(lm.isRunning()) {
 				lm.loopLevel();

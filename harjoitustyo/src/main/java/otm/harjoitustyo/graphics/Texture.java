@@ -23,6 +23,7 @@ import otm.harjoitustyo.Resources;
 public class Texture {
 
 	// OpenGL texture id
+	public int references = 0; // How many objects are using this texture, when references reaches 0, the texture may be deleted
 	private int textureId, width, height;
 	private String name;
 

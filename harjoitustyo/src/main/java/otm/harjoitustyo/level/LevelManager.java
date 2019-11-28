@@ -145,7 +145,7 @@ public class LevelManager {
 			timedEvents.poll().run();
 		}
 
-		if(level.backgroundType == "video") {
+		if(level.backgroundType.equals("video")) {
 			synchronized(videoDecoder) {
 				if(!videoDecoder.ready) {
 					try {

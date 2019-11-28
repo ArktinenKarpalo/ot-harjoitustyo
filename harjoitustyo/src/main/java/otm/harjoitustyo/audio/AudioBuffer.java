@@ -5,6 +5,7 @@ import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 import static org.lwjgl.openal.AL10.alBufferData;
 import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.AL10.alGenBuffers;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_memory;
 import static org.lwjgl.system.MemoryUtil.memAllocInt;
 import static org.lwjgl.system.MemoryUtil.memFree;
@@ -13,6 +14,7 @@ import static org.lwjgl.system.MemoryUtil.memFree;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryUtil;
 import otm.harjoitustyo.Resources;
 
@@ -41,9 +43,7 @@ public class AudioBuffer {
 		IntBuffer channelsBuf = memAllocInt(1);
 		IntBuffer sampleBuf = memAllocInt(1);
 
-		ByteBuffer fileBuf = Resources.loadResourceAsByteBuffer(path);
-		rawAudioBuffer = stb_vorbis_decode_memory(fileBuf, channelsBuf, sampleBuf);
-		MemoryUtil.memFree(fileBuf);
+		rawAudioBuffer = stb_vorbis_decode_filename(path, channelsBuf, sampleBuf);
 
 		int channels = channelsBuf.get(0);
 		int sampleRate = sampleBuf.get(0);

@@ -58,7 +58,7 @@ public class VideoDecoder extends MediaListenerAdapter implements Runnable {
 				}
 			}
 			currentFrame = 1;
-			IMediaReader reader = ToolFactory.makeReader(Resources.getResourceAsTemporaryFile(videoPath).getPath());
+			IMediaReader reader = ToolFactory.makeReader(videoPath);
 			reader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 			reader.addListener(this);
 			while(reader.readPacket() == null) {

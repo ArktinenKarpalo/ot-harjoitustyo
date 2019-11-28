@@ -49,6 +49,7 @@ import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.graphics.ShaderManager;
 import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.level.Level;
+import otm.harjoitustyo.level.LevelLoader;
 import otm.harjoitustyo.level.LevelManager;
 
 public class Game {
@@ -127,7 +128,8 @@ public class Game {
 		double prevTime = glfwGetTime();
 		int frames = 0;
 
-		Level testLevel = new Level();
+		Level testLevel = LevelLoader.loadLevel("level1.zip");
+		testLevel.init();
 		lm = new LevelManager(testLevel);
 		lm.loadLevel();
 		while(!glfwWindowShouldClose(window)) {

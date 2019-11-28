@@ -57,6 +57,7 @@ public class Resources {
 		try {
 			tempFile = File.createTempFile("otm_temp_" + path, null);
 			Files.copy(is, Paths.get(tempFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+			tempFile.deleteOnExit();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

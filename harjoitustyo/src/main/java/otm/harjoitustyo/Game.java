@@ -72,6 +72,8 @@ public class Game {
 		glfwSetErrorCallback(null).free();
 
 		AudioManager.getInstance().close();
+
+		System.exit(0);
 	}
 
 	private void init() {

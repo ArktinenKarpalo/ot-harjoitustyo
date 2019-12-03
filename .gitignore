@@ -2,3 +2,4 @@
 /harjoitustyo/target
 .idea
 *.iml
+.gradle

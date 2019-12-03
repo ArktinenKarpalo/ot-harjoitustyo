@@ -32,3 +32,5 @@ Tulokset löytyvät tiedostosta `target/site/checkstyle.html`
 [Tuntikirjanpito](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/tuntikirjanpito.MD)
 
 [Arkkitehtuuri](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/arkkitehtuuri.md)
+
+[Release 1](https://github.com/ArktinenKarpalo/otm-harjoitustyo/releases/tag/v0.1)

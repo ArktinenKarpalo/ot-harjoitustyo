@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
+
 import java.util.HashMap;
 
 public class TextureManager {
@@ -32,15 +33,17 @@ public class TextureManager {
 	// Even after set texture, getTexture should be used to keep texture references correct
 	public void setTexture(String name, Texture texture) {
 		Texture previous = loadedTextures.put(name, texture);
-		if(previous != null)
+		if(previous != null) {
 			previous.deleteTexture();
+		}
 	}
 
 	// If texture is not found, returns null
 	public Texture getTexture(String name) {
 		Texture texture = loadedTextures.get(name);
-		if(texture != null)
+		if(texture != null) {
 			texture.references++;
+		}
 		return texture;
 	}
 

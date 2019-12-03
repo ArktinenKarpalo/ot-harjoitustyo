@@ -158,7 +158,6 @@ public class Game {
 				prevTime = glfwGetTime();
 				frames = 0;
 			}
-
 			frames++;
 		}
 	}

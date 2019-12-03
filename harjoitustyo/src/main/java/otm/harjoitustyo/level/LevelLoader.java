@@ -10,7 +10,7 @@ import otm.harjoitustyo.Resources;
 
 public class LevelLoader {
 
-	private static int FORMAT_VERSION = 1;
+	private static int formatVersion = 1;
 
 	public static Level loadLevel(String path) {
 		String levelName = null;
@@ -21,33 +21,34 @@ public class LevelLoader {
 		LevelEvent[] levelEvents = null;
 		try {
 			Path zipRoot = FileSystems.newFileSystem(Resources.getResourceAsTemporaryFile(path).toPath(), null)
-				.getRootDirectories()
-				.iterator()
-				.next();
+							.getRootDirectories()
+							.iterator()
+							.next();
 			Object[] zipPaths = Files.walk(zipRoot).toArray();
-			for(int i=0; i<zipPaths.length; i++) {
-				Path p = (Path)zipPaths[i];
-				if(p.getFileName() == null) // Is not a file
+			for(int i = 0; i < zipPaths.length; i++) {
+				Path p = (Path) zipPaths[i];
+				if(p.getFileName() == null) { // Is not a file
 					continue;
+				}
 				if(p.getFileName().toString().equals("level.ogg")) {
 					levelMusicPath = makeTempCopy(p).toAbsolutePath().toString();
 				} else if(p.getFileName().toString().equals("level.mp4")) {
 					levelBackgroundPath = makeTempCopy(p).toAbsolutePath().toString();
 				} else if(p.getFileName().toString().equals("info")) {
 					List<String> lines = Files.readAllLines(p);
-					if(Integer.parseInt(lines.get(0)) != FORMAT_VERSION) {
-						throw new Error("Save file format of version: " + lines.get(0) + " expecting: " + FORMAT_VERSION);
+					if(Integer.parseInt(lines.get(0)) != formatVersion) {
+						throw new Error("Save file format of version: " + lines.get(0) + " expecting: " + formatVersion);
 					}
 					levelName = lines.get(1);
 					levelBackground = lines.get(2);
 					scrollingSpeed = Float.parseFloat(lines.get(3));
-					levelEvents = new LevelEvent[lines.size()-4];
-					for(int j=4; j<lines.size(); j++) {
+					levelEvents = new LevelEvent[lines.size() - 4];
+					for(int j = 4; j < lines.size(); j++) {
 						String[] lineContent = lines.get(j).split(" ");
 						if(lineContent[0].equals("KEY_PRESS")) {
-							levelEvents[j-4] = new LevelEvent(LevelEventType.KEY_PRESS, Integer.parseInt(lineContent[2]), Long.parseLong(lineContent[1]));
+							levelEvents[j - 4] = new LevelEvent(LevelEventType.KEY_PRESS, Integer.parseInt(lineContent[2]), Long.parseLong(lineContent[1]));
 						} else if(lineContent[0].equals("KEY_HOLD")) {
-							levelEvents[j-4] = new LevelEvent(LevelEventType.KEY_HOLD, Integer.parseInt(lineContent[2]), Long.parseLong(lineContent[1]), Long.parseLong(lineContent[3]));
+							levelEvents[j - 4] = new LevelEvent(LevelEventType.KEY_HOLD, Integer.parseInt(lineContent[2]), Long.parseLong(lineContent[1]), Long.parseLong(lineContent[3]));
 						}
 					}
 				}

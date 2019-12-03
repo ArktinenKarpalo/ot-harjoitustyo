@@ -24,13 +24,12 @@ public class LevelEvent implements Comparable {
 	@Override
 	public boolean equals(Object o) {
 		if(o instanceof LevelEvent) {
-			LevelEvent le = (LevelEvent)o;
-			if(le.duration == this.duration
-			&& le.type == this.type
-			&& le.consumed == this.consumed
-			&& le.time == this.time
-			&& le.key == this.key)
-			return true;
+			LevelEvent le = (LevelEvent) o;
+			return le.duration == this.duration
+				&& le.type == this.type
+				&& le.consumed == this.consumed
+				&& le.time == this.time
+				&& le.key == this.key;
 		}
 		return false;
 	}

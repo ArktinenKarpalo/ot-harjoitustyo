@@ -7,6 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_K;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -63,8 +64,9 @@ public class LevelManager {
 	public int eventScore(int accuracy) {
 		accuracy = Math.abs(accuracy);
 		for(int i = 50; i <= 1000; i += 50) {
-			if(accuracy <= i)
-				return 1000-i;
+			if(accuracy <= i) {
+				return 1000 - i;
+			}
 
 		}
 		return 0;
@@ -96,7 +98,7 @@ public class LevelManager {
 			keyPressIndicators[i].setZ(10);
 			Renderer.getInstance().addDrawable(keyPressIndicators[i]);
 			Text txt = new Text(keyLabel[i], "OpenSans-Regular.ttf", 14, 1, 1005);
-			txt.setPosition(keyX[i]+5, keyY+15);
+			txt.setPosition(keyX[i] + 5, keyY + 15);
 			Renderer.getInstance().addDrawable(txt);
 			drawables.add(txt);
 			txt.setColor(255, 255, 255, 255);
@@ -106,13 +108,13 @@ public class LevelManager {
 		for(int i = 0; i < level.levelEvents.length; i++) {
 			final int currentIndex = i;
 			Sprite sprite = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
-			timedEvents.add(new TimedEvent((long) Math.floor(level.levelEvents[i].time-720/level.scrollingSpeed)) {
+			timedEvents.add(new TimedEvent((long) Math.floor(level.levelEvents[i].time - 720 / level.scrollingSpeed)) {
 				@Override
 				public void run() {
 					if(level.levelEvents[currentIndex].type == LevelEventType.KEY_HOLD) {
 						levelEventSprites[currentIndex] = sprite;
 						levelEventSprites[currentIndex].setColor(0, 50, 150, 120);
-						int ySize = (int)(level.levelEvents[currentIndex].duration*level.scrollingSpeed);
+						int ySize = (int) (level.levelEvents[currentIndex].duration * level.scrollingSpeed);
 						levelEventSprites[currentIndex].setScale(50, ySize);
 					} else if(level.levelEvents[currentIndex].type == LevelEventType.KEY_PRESS) {
 						levelEventSprites[currentIndex] = sprite;
@@ -122,7 +124,7 @@ public class LevelManager {
 					Renderer.getInstance().addDrawable(sprite);
 				}
 			});
-			timedEvents.add(new TimedEvent(Math.min(duration-100, (long) Math.floor(level.levelEvents[i].time+(sprite.getScale().y+200)/level.scrollingSpeed))) {
+			timedEvents.add(new TimedEvent(Math.min(duration - 100, (long) Math.floor(level.levelEvents[i].time + (sprite.getScale().y + 200) / level.scrollingSpeed))) {
 				@Override
 				public void run() {
 					Renderer.getInstance().deleteDrawable(sprite);
@@ -157,7 +159,7 @@ public class LevelManager {
 		}
 
 		// Process timed events
-		while(!timedEvents.isEmpty() && timedEvents.peek().time <= now-startTime) {
+		while(!timedEvents.isEmpty() && timedEvents.peek().time <= now - startTime) {
 			timedEvents.poll().run();
 		}
 
@@ -247,7 +249,7 @@ public class LevelManager {
 		long now = System.currentTimeMillis();
 		keyPressIndicators[key].setColor(250, 170, 100, 240);
 		if(heldEvent[key] != null) {
-			if(Math.abs(now-startTime-(heldEvent[key].time + heldEvent[key].duration)) <= 1500) {
+			if(Math.abs(now - startTime - (heldEvent[key].time + heldEvent[key].duration)) <= 1500) {
 				score += eventScore(heldEventAccuracy[key]);
 				updateScoreText();
 			}
@@ -317,7 +319,7 @@ public class LevelManager {
 
 		@Override
 		public int compareTo(Object o) {
-			return Long.compare(time, ((TimedEvent)o).time);
+			return Long.compare(time, ((TimedEvent) o).time);
 		}
 	}
 }

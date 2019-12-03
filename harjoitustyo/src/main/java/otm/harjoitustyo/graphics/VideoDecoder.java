@@ -11,7 +11,6 @@ import com.xuggle.mediatool.event.IVideoPictureEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.nio.ByteBuffer;
-import otm.harjoitustyo.Resources;
 
 /**
  * Video thread is used to extract frames from

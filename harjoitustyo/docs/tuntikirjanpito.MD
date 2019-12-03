@@ -10,3 +10,8 @@
 |19.11.|3h|Korjauksia + viikon 3 tavoitteita|
 |21.11.|½h|jar-pakkaus|
 |26.11.|4h|Teksti + viikon 4 deadline|
+|27.11.|2h|Koodin rakenteen pientä parannusta|
+|28.11.|3h|Tasojen lataus tiedostoista|
+|2.12.|½h|Ominaisuuksien suunnittelu|
+|3.12.|4h|Tason teko + viikon 5 deadline|
+|Yhteensä|45.5h|Päivitetty 3.12.|

@@ -132,10 +132,12 @@ public class Sprite implements Drawable {
 	}
 
 	public void delete() {
-		glDeleteBuffers(vao);
-		glDeleteBuffers(vbo);
-		texture.references--;
-		deleted = true;
+		if(!deleted) {
+			glDeleteBuffers(vao);
+			glDeleteBuffers(vbo);
+			texture.references--;
+			deleted = true;
+		}
 	}
 
 	@Override

@@ -7,10 +7,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_K;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import org.lwjgl.opengl.GL12;
 import otm.harjoitustyo.audio.AudioManager;
+import otm.harjoitustyo.graphics.Drawable;
 import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.graphics.Sprite;
 import otm.harjoitustyo.graphics.Text;
@@ -38,14 +40,19 @@ public class LevelManager {
 
 	Sprite[] keyPressIndicators;
 
+	int[] heldEventAccuracy = new int[4];
 	LevelEvent[] heldEvent = new LevelEvent[4]; // KEY_HOLD event associated with current keydown hold
+
+	List<Drawable> drawables; // List of drawables to delete in end of the level
 
 	// Locations of keypress indicators
 	int[] keyX = {530, 530 + 55, 530 + 55 * 2, 530 + 55 * 3};
+	String[] keyLabel = {"D", "F", "J", "K"};
 	int keyY = 40;
 
 	public LevelManager(Level level) {
 		this.level = level;
+		drawables = new ArrayList<>();
 	}
 
 	public boolean isRunning() {
@@ -82,37 +89,45 @@ public class LevelManager {
 		keyPressIndicators = new Sprite[4];
 		for(int i = 0; i < 4; i++) {
 			keyPressIndicators[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
+			drawables.add(keyPressIndicators[i]);
 			keyPressIndicators[i].setSize(50);
 			keyPressIndicators[i].setPosition(keyX[i], keyY);
-			keyPressIndicators[i].setColor(200, 200, 50, 120);
+			keyPressIndicators[i].setColor(250, 170, 100, 240);
 			keyPressIndicators[i].setZ(10);
 			Renderer.getInstance().addDrawable(keyPressIndicators[i]);
+			Text txt = new Text(keyLabel[i], "OpenSans-Regular.ttf", 14, 1, 1005);
+			txt.setPosition(keyX[i]+5, keyY+15);
+			Renderer.getInstance().addDrawable(txt);
+			drawables.add(txt);
+			txt.setColor(255, 255, 255, 255);
 		}
 
 		levelEventSprites = new Sprite[level.levelEvents.length];
 		for(int i = 0; i < level.levelEvents.length; i++) {
-			if(level.levelEvents[i].type == LevelEventType.KEY_HOLD) {
-				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
-				levelEventSprites[i].setColor(0, 50, 150, 120);
-				int ySize = (int)(level.levelEvents[i].duration*level.scrollingSpeed);
-				levelEventSprites[i].setScale(20, ySize);
-			} else if(level.levelEvents[i].type == LevelEventType.KEY_PRESS) {
-				levelEventSprites[i] = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
-				levelEventSprites[i].setColor(0, 50, 150, 120);
-				levelEventSprites[i].setScale(20, 15);
-			}
-			Sprite sprite = levelEventSprites[i];
+			final int currentIndex = i;
+			Sprite sprite = new Sprite(TextureManager.getInstance().getFileTexture("bb.png"));
 			timedEvents.add(new TimedEvent((long) Math.floor(level.levelEvents[i].time-720/level.scrollingSpeed)) {
 				@Override
 				public void run() {
+					if(level.levelEvents[currentIndex].type == LevelEventType.KEY_HOLD) {
+						levelEventSprites[currentIndex] = sprite;
+						levelEventSprites[currentIndex].setColor(0, 50, 150, 120);
+						int ySize = (int)(level.levelEvents[currentIndex].duration*level.scrollingSpeed);
+						levelEventSprites[currentIndex].setScale(50, ySize);
+					} else if(level.levelEvents[currentIndex].type == LevelEventType.KEY_PRESS) {
+						levelEventSprites[currentIndex] = sprite;
+						levelEventSprites[currentIndex].setColor(0, 50, 150, 120);
+						levelEventSprites[currentIndex].setScale(50, 15);
+					}
 					Renderer.getInstance().addDrawable(sprite);
 				}
 			});
-			timedEvents.add(new TimedEvent((long) Math.floor(level.levelEvents[i].time+(sprite.getScale().y+200)/level.scrollingSpeed)) {
+			timedEvents.add(new TimedEvent(Math.min(duration-100, (long) Math.floor(level.levelEvents[i].time+(sprite.getScale().y+200)/level.scrollingSpeed))) {
 				@Override
 				public void run() {
 					Renderer.getInstance().deleteDrawable(sprite);
 					sprite.delete();
+					levelEventSprites[currentIndex] = null;
 				}
 			});
 		}
@@ -141,10 +156,12 @@ public class LevelManager {
 			levelEventPointer++;
 		}
 
+		// Process timed events
 		while(!timedEvents.isEmpty() && timedEvents.peek().time <= now-startTime) {
 			timedEvents.poll().run();
 		}
 
+		// Update background
 		if(level.backgroundType.equals("video")) {
 			synchronized(videoDecoder) {
 				if(!videoDecoder.ready) {
@@ -176,6 +193,7 @@ public class LevelManager {
 		}
 	}
 
+	// Called to assign new score to the score text
 	private void updateScoreText() {
 		Renderer.getInstance().deleteDrawable(scoreText);
 		scoreText.delete();
@@ -192,7 +210,7 @@ public class LevelManager {
 			levelEventPointer++;
 		}
 
-		keyPressIndicators[key].setColor(250, 250, 100, 120);
+		keyPressIndicators[key].setColor(250, 50, 250, 240);
 
 		int future = levelEventPointer, past = levelEventPointer - 1;
 		LevelEvent closestEvent = null;
@@ -217,9 +235,9 @@ public class LevelManager {
 				score += eventScore(Math.round(closestEvent.time - (now - startTime)));
 				updateScoreText();
 
-				System.out.println(Math.abs(closestEvent.time - (now - startTime)) + " and " + closestEvent.time + " " + closestEvent.type + closestEvent.consumed);
 			} else if(closestEvent.type == LevelEventType.KEY_HOLD) {
 				heldEvent[key] = closestEvent;
+				heldEventAccuracy[key] = Math.round(closestEvent.time - (now - startTime));
 			}
 			closestEvent.consumed = true;
 		}
@@ -227,14 +245,11 @@ public class LevelManager {
 
 	private void releaseKey(int key) {
 		long now = System.currentTimeMillis();
-		keyPressIndicators[key].setColor(200, 200, 50, 120);
+		keyPressIndicators[key].setColor(250, 170, 100, 240);
 		if(heldEvent[key] != null) {
-			if(Math.abs(now-startTime-(heldEvent[key].time + heldEvent[key].duration)) < 1500 ) {
-				score += eventScore(Math.round(now-startTime-(heldEvent[key].time + heldEvent[key].duration)));
+			if(Math.abs(now-startTime-(heldEvent[key].time + heldEvent[key].duration)) <= 1500) {
+				score += eventScore(heldEventAccuracy[key]);
 				updateScoreText();
-				System.out.println("ok keyhold");
-			} else {
-				System.out.println("not-ok keyhold");
 			}
 			heldEvent[key] = null;
 		}
@@ -277,17 +292,16 @@ public class LevelManager {
 			videoDecoder.notifyAll();
 		}
 
-		for(int i = 0; i < keyPressIndicators.length; i++) {
-			if(keyPressIndicators[i] != null) {
-				Renderer.getInstance().deleteDrawable(keyPressIndicators[i]);
-				keyPressIndicators[i].delete();
-			}
-		}
 		Renderer.getInstance().deleteDrawable(background);
 		background.delete();
 
 		Renderer.getInstance().deleteDrawable(scoreText);
 		scoreText.delete();
+
+		drawables.stream().forEach((drawable) -> {
+			Renderer.getInstance().deleteDrawable(drawable);
+			drawable.delete();
+		});
 	}
 
 	private class TimedEvent implements Comparable, Runnable {

@@ -10,7 +10,7 @@ Sovelluksen on tarkoitus olla rytmipeli, jossa käyttäjä painelee näppäimist
     - Kaikki synkronoituna musiikkiin (tähänastisille ominaisuuksille)
 - Pisteytysjärjestelmä (alustavasti)
 - High scoret tietokannassa
-- Pelattavat tasot ladataan tiedostoista
+- Pelattavat tasot ladataan tiedostoista (Tehty)
 ### Jatkokehitysideat
 - Yksinkertainen level editor
 - Graafinen valikko pelattavan tason valintaan

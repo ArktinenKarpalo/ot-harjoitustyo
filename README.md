@@ -26,6 +26,11 @@ Checkstyle suoritetaan seuraavalla komennolla
 ```mvn checkstyle:checkstyle```
 Tulokset löytyvät tiedostosta `target/site/checkstyle.html`
 
+### Javadoc
+Javadoc on generoitavissa seuraavalla komennolla
+```mvn javadoc:javadoc```
+Tulokset löytyvät tiedostosta `target/site/apidocs/index.html`
+
 
 [Vaatimusmäärittely](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/vaatimusmarittely.md)
 

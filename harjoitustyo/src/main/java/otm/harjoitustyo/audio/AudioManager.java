@@ -51,7 +51,11 @@ public class AudioManager {
 
 	}
 
-	// Should be called periodically to delete old AL source pointers from memory
+
+	/**
+	 * Deletes unused AL source pointers
+	 * Should be called periodically to avoid memory leaks
+	 */
 	public void deleteOldAudioSources() {
 		long now = System.currentTimeMillis();
 		while(sourcePointerRemoves.size() > 0 && sourcePointerRemoves.peek().time <= now) {
@@ -59,6 +63,10 @@ public class AudioManager {
 		}
 	}
 
+	/**
+	 * Loads and plays an audio file from the given path
+	 * @param path Path to the audio in jar
+	 */
 	public void playAudio(String path) {
 		AudioBuffer buf = loadFile(path);
 		int sourcePointer = alGenSources();
@@ -67,7 +75,11 @@ public class AudioManager {
 		alSourcePlay(sourcePointer);
 	}
 
-	// Load audiofile to OpenAL buffer, if it has not been loaded yet
+	/**
+	 * Loads the audio file from the given path
+	 * @param path Path to the audio in jar
+	 * @return AudioBuffer-object containing audio from the given path
+	 */
 	public AudioBuffer loadFile(String path) {
 		AudioBuffer buf = audioBuffers.get(path);
 		if(buf == null) {
@@ -77,7 +89,10 @@ public class AudioManager {
 		return buf;
 	}
 
-	// Free the memory used by the given buffer
+	/**
+	 * Deletes buffer with the given path, if it has been loaded, freeing the memory
+	 * @param path Path used to load the audiobuffer
+	 */
 	public void removeBuffer(String path) {
 		AudioBuffer buf = audioBuffers.remove(path);
 		if(buf != null) {
@@ -98,6 +113,9 @@ public class AudioManager {
 		ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
 	}
 
+	/**
+	 * Closes the OpenAL context and device
+	 */
 	public void close() {
 		alcDestroyContext(context);
 		alcCloseDevice(device);

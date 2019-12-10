@@ -14,6 +14,12 @@ import java.util.stream.Collectors;
 import org.lwjgl.system.MemoryUtil;
 
 public class Resources {
+
+	/**
+	 * Used to load resources from the jar as string
+	 * @param path path of the file in the jar
+	 * @return Returns the file as string, using \n as linebreak
+	 */
 	public static String loadResourceAsString(String path) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(Resources.class.getResourceAsStream("/" + path)));
 		return br.lines().collect(Collectors.joining("\n"));
@@ -21,8 +27,7 @@ public class Resources {
 
 	/**
 	 * Used to load resources from the jar
-	 *
-	 * @param path
+	 * @param path path of the file in the jar
 	 * @return ByteBuffer allocated by LWJGL MemoryUtil, must be freed with memFree after usage
 	 */
 	public static ByteBuffer loadResourceAsByteBuffer(String path) {
@@ -46,11 +51,19 @@ public class Resources {
 		return bb;
 	}
 
+	/**
+	 * @param path path of the file in the jar
+	 * @return InputSteam to file of the path
+	 */
 	public static InputStream getResourceAsInputStream(String path) {
 		return Resources.class.getResourceAsStream("/" + path);
 	}
 
-	// The file is deleted when the application is closed
+	/**
+	 * The file gets deleted when the application is closed.
+	 * @param path path to the file in the jar
+	 * @return Temporary copy of the file
+	 */
 	public static File getResourceAsTemporaryFile(String path) {
 		InputStream is = Resources.class.getResourceAsStream("/" + path);
 		File tempFile = null;

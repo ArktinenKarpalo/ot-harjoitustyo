@@ -62,6 +62,9 @@ public class AudioBuffer {
 		memFree(rawAudioBuffer);
 	}
 
+	/**
+	 * Removes the corresponding OpenAL buffer
+	 */
 	public void delete() {
 		alDeleteBuffers(bufferPointer);
 	}

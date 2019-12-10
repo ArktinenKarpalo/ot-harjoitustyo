@@ -43,6 +43,11 @@ public class HighscoreDatabase {
 		}
 	}
 
+	/**
+	 * Used to get list of scores of a certain level from the database
+	 * @param levelName Name of the level to get scores of
+	 * @return List of all saved scores for the level
+	 */
 	public ArrayList<Highscore> getScores(String levelName) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Scores WHERE levelname = ? ORDER BY score DESC");
@@ -62,6 +67,12 @@ public class HighscoreDatabase {
 		return null;
 	}
 
+	/**
+	 * Saves a row with given parameters and current date as timestamp to the databse
+	 * @param nickname Nickname of the player
+	 * @param levelName Name of the level
+	 * @param score Score of the player's current attempt
+	 */
 	public void submitScore(String nickname, String levelName, int score) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Scores(nickname, levelname, score, date) VALUES(?,?,?,?)");

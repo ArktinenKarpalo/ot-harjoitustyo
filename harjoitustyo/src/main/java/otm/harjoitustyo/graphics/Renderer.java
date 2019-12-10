@@ -19,13 +19,17 @@ public class Renderer {
 		drawables = new HashSet<>();
 	}
 
-	public void addDrawable(Drawable drawable) {
-		drawables.add(drawable);
+	public void addDrawable(Drawable... drawable) {
+		for(Drawable d : drawable) {
+			drawables.add(d);
+		}
 	}
 
 	// Only deletes drawable from the render list, drawable must be deleted separately to free GPU resources
-	public void deleteDrawable(Drawable drawable) {
-		drawables.remove(drawable);
+	public void deleteDrawable(Drawable... drawable) {
+		for(Drawable d : drawable) {
+			drawables.remove(d);
+		}
 	}
 
 	public void drawAll() {

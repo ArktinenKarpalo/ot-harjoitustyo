@@ -21,12 +21,12 @@ import otm.harjoitustyo.graphics.Texture;
 import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.graphics.VideoDecoder;
 
-public class LevelManager {
+public class LevelManager implements Scene {
 
 	private Level level;
 	private long startTime, duration;
 	boolean running;
-	long score = 0;
+	int score = 0;
 
 	private VideoDecoder videoDecoder;
 
@@ -146,7 +146,7 @@ public class LevelManager {
 		running = true;
 	}
 
-	public void loopLevel() {
+	public void loop() {
 		long now = System.currentTimeMillis();
 		if(now - startTime > this.duration) {
 			finishLevel();
@@ -257,7 +257,19 @@ public class LevelManager {
 		}
 	}
 
-	public void handleInput(long window, int key, int scancode, int action, int mods) {
+
+	public Scene nextScene() {
+		if(!running) {
+			return new HighscoreScreen(level.name, score);
+		} else {
+			return this;
+		}
+	}
+
+	public void handleCharInput(long window, int codepoint) {
+	}
+
+	public void handleKeyInput(long window, int key, int scancode, int action, int mods) {
 		if(running) {
 			if(key == GLFW_KEY_D) {
 				if(action == GLFW_PRESS) {

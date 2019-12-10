@@ -3,3 +3,4 @@
 .idea
 *.iml
 .gradle
+harjoitustyo/score.sqlite3

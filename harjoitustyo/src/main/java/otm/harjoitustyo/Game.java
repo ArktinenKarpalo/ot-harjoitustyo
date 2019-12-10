@@ -17,6 +17,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetCharCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
@@ -51,11 +52,12 @@ import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.level.Level;
 import otm.harjoitustyo.level.LevelLoader;
 import otm.harjoitustyo.level.LevelManager;
+import otm.harjoitustyo.level.Scene;
 
 public class Game {
 
 	private long window;
-	LevelManager lm;
+	private Scene currentScene;
 
 	public Game() {
 	}
@@ -98,8 +100,14 @@ public class Game {
 			if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
 				glfwSetWindowShouldClose(window, true);
 			}
-			if(lm != null && lm.isRunning()) {
-				lm.handleInput(window, key, scancode, action, mods);
+			if(currentScene != null) {
+				currentScene.handleKeyInput(window, key, scancode, action, mods);
+			}
+		});
+
+		glfwSetCharCallback(window, (window, codepoint) -> {
+			if(currentScene != null) {
+				currentScene.handleCharInput(window, codepoint);
 			}
 		});
 
@@ -125,15 +133,17 @@ public class Game {
 	}
 
 	private void loop() {
-		glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		double prevTime = glfwGetTime();
 		int frames = 0;
 
 		Level testLevel = LevelLoader.loadLevel("level1.zip");
 		testLevel.init();
-		lm = new LevelManager(testLevel);
+		LevelManager lm = new LevelManager(testLevel);
+		currentScene = lm;
 		lm.loadLevel();
+
 		while(!glfwWindowShouldClose(window)) {
 			if(frames == 1) {
 				AudioManager.getInstance().deleteOldAudioSources();
@@ -141,11 +151,13 @@ public class Game {
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			if(lm.isRunning()) {
-				lm.loopLevel();
-			} else {
+			if(currentScene == null) {
 				break;
+			} else {
+				currentScene.loop();
+				currentScene = currentScene.nextScene();
 			}
+
 			Renderer.getInstance().drawAll();
 
 			glfwSwapBuffers(window);

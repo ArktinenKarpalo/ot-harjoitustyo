@@ -76,6 +76,7 @@ public class HighscoreScreen implements Scene {
 			Renderer.getInstance().deleteDrawable(t);
 			t.delete();
 		}
+
 	}
 
 	private void displayScores() {
@@ -150,6 +151,7 @@ public class HighscoreScreen implements Scene {
 			} else if(key == GLFW.GLFW_KEY_ENTER && action == GLFW.GLFW_PRESS) {
 				displayClose();
 				hasEnded = true;
+				state = null;
 			}
 		}
 	}

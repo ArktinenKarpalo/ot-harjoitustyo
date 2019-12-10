@@ -44,8 +44,8 @@ public class Text implements Drawable {
 			characters[i].setScale(bm.getWidth() * scale, bm.getRows() * scale);
 			characters[i].setPosition(xOffset + gs.getBitmapLeft(), yOffset - (gs.getBitmapTop()));
 
-			xOffset += gs.getAdvance().getX() / fontSize;
-			yOffset += gs.getAdvance().getY() / fontSize;
+			xOffset += gs.getAdvance().getX()/64;
+			yOffset += gs.getAdvance().getY()/64;
 		}
 	}
 

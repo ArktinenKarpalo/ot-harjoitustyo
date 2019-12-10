@@ -14,4 +14,5 @@
 |28.11.|3h|Tasojen lataus tiedostoista|
 |2.12.|½h|Ominaisuuksien suunnittelu|
 |3.12.|4h|Tason teko + viikon 5 deadline|
-|Yhteensä|45.5h|Päivitetty 3.12.|
+|10.12.|4h|Highscore + viikon 6 deadlinet|
+|Yhteensä|49.5h|Päivitetty 3.12.|

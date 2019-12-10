@@ -27,6 +27,15 @@ public class HighscoreDatabase {
 		}
 	}
 
+	public HighscoreDatabase(String path) {
+		try {
+			conn = DriverManager.getConnection(path);
+			initTables();
+		} catch(SQLException err) {
+			throw new Error(err);
+		}
+	}
+
 	public class Highscore {
 		String nickname, levelName;
 		int score, date;
@@ -84,6 +93,17 @@ public class HighscoreDatabase {
 
 		} catch(SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Used to reset the database by dropping all tables
+	 */
+	public void resetDatabase() {
+		try {
+			conn.prepareStatement("DROP TABLE Scores").execute();
+		} catch(SQLException err) {
+			err.printStackTrace();
 		}
 	}
 

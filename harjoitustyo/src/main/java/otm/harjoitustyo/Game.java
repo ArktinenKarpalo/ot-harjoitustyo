@@ -49,6 +49,7 @@ import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.graphics.ShaderManager;
 import otm.harjoitustyo.graphics.TextureManager;
+import otm.harjoitustyo.graphics.text.Text;
 import otm.harjoitustyo.level.Level;
 import otm.harjoitustyo.level.LevelLoader;
 import otm.harjoitustyo.level.LevelManager;

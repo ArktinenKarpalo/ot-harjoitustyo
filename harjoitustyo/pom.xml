@@ -203,13 +203,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://github.com/mlomb/freetype-jni -->
-		<dependency>
-			<groupId>freetype-jni</groupId>
-			<artifactId>freetype-jni</artifactId>
-			<version>1.2</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
 		<dependency>
 			<groupId>org.xerial</groupId>

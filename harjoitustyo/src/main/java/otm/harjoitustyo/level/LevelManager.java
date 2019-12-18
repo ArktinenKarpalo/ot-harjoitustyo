@@ -16,7 +16,7 @@ import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.Drawable;
 import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.graphics.Sprite;
-import otm.harjoitustyo.graphics.Text;
+import otm.harjoitustyo.graphics.text.Text;
 import otm.harjoitustyo.graphics.Texture;
 import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.graphics.VideoDecoder;

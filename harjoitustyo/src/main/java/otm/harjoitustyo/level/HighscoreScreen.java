@@ -5,7 +5,7 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 import otm.harjoitustyo.graphics.Drawable;
 import otm.harjoitustyo.graphics.Renderer;
-import otm.harjoitustyo.graphics.Text;
+import otm.harjoitustyo.graphics.text.Text;
 
 public class HighscoreScreen implements Scene {
 

@@ -1,5 +1,6 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL45.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL45.GL_FLOAT;
 import static org.lwjgl.opengl.GL45.GL_STATIC_DRAW;

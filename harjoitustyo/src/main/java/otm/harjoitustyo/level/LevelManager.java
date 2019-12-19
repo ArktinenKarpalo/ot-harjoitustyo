@@ -64,11 +64,16 @@ public class LevelManager implements Scene {
 	// accuracy = missed by x milliseconds
 	public int eventScore(int accuracy) {
 		accuracy = Math.abs(accuracy);
-		for(int i = 50; i <= 1000; i += 50) {
-			if(accuracy <= i) {
-				return 1000 - i;
-			}
-
+		if(accuracy <= 50) {
+			return 300;
+		} else if(accuracy <= 100) {
+			return 250;
+		} else if(accuracy <= 150) {
+			return 150;
+		} else if(accuracy <= 200) {
+			return 100;
+		} else if(accuracy <= 350) {
+			return 50;
 		}
 		return 0;
 	}
@@ -141,7 +146,7 @@ public class LevelManager implements Scene {
 		Renderer.getInstance().addDrawable(scoreText);
 
 		this.duration = AudioManager.getInstance().loadFile(level.musicPath).getDuration();
-		//AudioManager.getInstance().playAudio(level.musicPath);
+		AudioManager.getInstance().playAudio(level.musicPath);
 		startTime = System.currentTimeMillis();
 
 		running = true;

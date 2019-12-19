@@ -16,10 +16,6 @@
 
 	<repositories>
 		<repository>
-			<id>xuggler</id>
-			<url>https://www.dcm4che.org/maven2/</url>
-		</repository>
-		<repository>
 			<id>maven</id>
 			<url>https://repo1.maven.org/maven2</url>
 		</repository>
@@ -227,24 +223,6 @@
 			<classifier>natives-macos</classifier>
 		</dependency>
 
-		<!--- Xuggler dependencies -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.5.11</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.11</version>
-		</dependency>
-
-		<dependency>
-			<groupId>xuggle</groupId>
-			<artifactId>xuggle-xuggler</artifactId>
-			<version>5.4</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -258,6 +236,12 @@
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.28.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>ffmpeg-platform</artifactId>
+			<version>4.2.1-1.5.2</version>
 		</dependency>
 
 	</dependencies>

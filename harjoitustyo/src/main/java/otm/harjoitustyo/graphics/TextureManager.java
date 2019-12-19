@@ -24,8 +24,7 @@ public class TextureManager {
 
 	public void useTexture(Texture texture) {
 		if(currentTextureId != texture.getTextureId()) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
+			texture.useTexture();
 			currentTextureId = texture.getTextureId();
 		}
 	}

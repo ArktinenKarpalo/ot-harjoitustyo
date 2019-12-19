@@ -11,10 +11,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL11;
 import otm.harjoitustyo.audio.AudioManager;
 import otm.harjoitustyo.graphics.Drawable;
 import otm.harjoitustyo.graphics.Renderer;
+import otm.harjoitustyo.graphics.ShaderManager;
 import otm.harjoitustyo.graphics.Sprite;
 import otm.harjoitustyo.graphics.text.Text;
 import otm.harjoitustyo.graphics.Texture;
@@ -83,7 +84,7 @@ public class LevelManager implements Scene {
 			throw new Error("Background not implemented.");
 		}
 		TextureManager.getInstance().setTexture("frame", new Texture("background_loading.png"));
-		background = new Sprite(TextureManager.getInstance().getTexture("frame"));
+		background = new Sprite(TextureManager.getInstance().getTexture("frame"), ShaderManager.frameShader);
 		background.setZ(-1000);
 		background.setSize(1280);
 		Renderer.getInstance().addDrawable(background);
@@ -140,7 +141,7 @@ public class LevelManager implements Scene {
 		Renderer.getInstance().addDrawable(scoreText);
 
 		this.duration = AudioManager.getInstance().loadFile(level.musicPath).getDuration();
-		AudioManager.getInstance().playAudio(level.musicPath);
+		//AudioManager.getInstance().playAudio(level.musicPath);
 		startTime = System.currentTimeMillis();
 
 		running = true;
@@ -173,8 +174,13 @@ public class LevelManager implements Scene {
 						e.printStackTrace();
 					}
 				}
-				TextureManager.getInstance().setTexture("frame", new Texture(videoDecoder.texBuf, videoDecoder.height, videoDecoder.width, GL12.GL_BGR));
+
+				Texture texture = new Texture(videoDecoder.y, videoDecoder.height, videoDecoder.width, GL11.GL_RED, GL11.GL_RED);
+				texture.loadTexture(videoDecoder.u, 1, videoDecoder.height/2, videoDecoder.width/2, GL11.GL_RED);
+				texture.loadTexture(videoDecoder.v, 2, videoDecoder.height/2, videoDecoder.width/2, GL11.GL_RED);
+				TextureManager.getInstance().setTexture("frame", texture);
 				background.setTexture(TextureManager.getInstance().getTexture("frame"));
+
 				int expectedFrame = (int) Math.floor(((now - startTime) / 1000.0) * videoDecoder.frameRate);
 				if(expectedFrame > videoDecoder.currentFrame) {
 					if(expectedFrame - videoDecoder.currentFrame > 2) {

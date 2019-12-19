@@ -1,5 +1,6 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.opengl.GL20.glUniform1i;
 import static org.lwjgl.opengl.GL45.GL_COMPILE_STATUS;
 import static org.lwjgl.opengl.GL45.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL45.GL_LINK_STATUS;
@@ -71,6 +72,12 @@ public class ShaderProgram {
 		ShaderManager.getInstance().useShader(this);
 		int uniformLoc = glGetUniformLocation(shaderProgram, uniform);
 		glUniform4f(uniformLoc, vec.x, vec.y, vec.z, vec.w);
+	}
+
+	public void setUniform1i(String uniform, int i) {
+		ShaderManager.getInstance().useShader(this);
+		int uniformLoc = glGetUniformLocation(shaderProgram, uniform);
+		glUniform1i(uniformLoc, i);
 	}
 
 	public int getShaderProgramId() {

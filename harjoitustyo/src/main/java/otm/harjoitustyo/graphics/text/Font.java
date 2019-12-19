@@ -42,7 +42,7 @@ public class Font {
 
 			if(texBuf != null) {
 				if(TextureManager.getInstance().getTexture(path + character + size) == null) {
-					TextureManager.getInstance().setTexture(path + character + size, new Texture(texBuf, height.get(0), width.get(0), GL12.GL_RED));
+					TextureManager.getInstance().setTexture(path + character + size, new Texture(texBuf, height.get(0), width.get(0), GL12.GL_RED, GL12.GL_RED));
 				}
 				STBTruetype.stbtt_FreeBitmap(texBuf);
 

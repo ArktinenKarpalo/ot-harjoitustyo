@@ -1,12 +1,17 @@
 package otm.harjoitustyo.graphics;
 
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDeleteTextures;
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
@@ -24,7 +29,9 @@ public class Texture {
 
 	// OpenGL texture id
 	public int references = 0; // How many objects are using this texture, when references reaches 0, the texture may be deleted
-	private int textureId, width, height;
+	private int width, height;
+	private int internalGlFormat = GL_RGBA;
+	private int[] textureId = new int[3];
 	private String name;
 
 	public Texture(String path) {
@@ -36,12 +43,36 @@ public class Texture {
 	public Texture(ByteBuffer texBuf, int height, int width, int pixelFormat) {
 		this.width = width;
 		this.height = height;
-		loadTexture(texBuf, pixelFormat);
+		loadTexture(texBuf, 0, height, width, pixelFormat);
+		textureId[1] = -1;
+		textureId[2] = -1;
+	}
+
+	// pixelFormat = OpenGL color pixelformat ie. BGR
+	public Texture(ByteBuffer texBuf, int height, int width, int pixelFormat, int internalGlFormat) {
+		this.width = width;
+		this.height = height;
+		this.internalGlFormat = internalGlFormat;
+		loadTexture(texBuf, 0, height, width, pixelFormat);
+		textureId[1] = -1;
+		textureId[2] = -1;
 	}
 
 	// Unloads the texture from GPU memory
 	public void deleteTexture() {
-		glDeleteTextures(textureId);
+		for(int i=0; i<textureId.length; i++) {
+			if(textureId[i] != -1)
+				glDeleteTextures(textureId);
+		}
+	}
+
+	public void useTexture() {
+		for(int i=0; i<textureId.length; i++) {
+			if(textureId[i] != -1) {
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, textureId[i]);
+			}
+		}
 	}
 
 	public int getWidth() {
@@ -53,7 +84,7 @@ public class Texture {
 	}
 
 	public int getTextureId() {
-		return textureId;
+		return textureId[0];
 	}
 
 	public String getName() {
@@ -77,7 +108,7 @@ public class Texture {
 		int id = glGenTextures();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texBuf);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalGlFormat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texBuf);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		STBImage.stbi_image_free(texBuf);
@@ -86,17 +117,21 @@ public class Texture {
 		memFree(h);
 		memFree(comp);
 
-		textureId = id;
+		textureId[0] = id;
 	}
 
 	// texbuf color format BGR
-	private void loadTexture(ByteBuffer texBuf, int pixelFormat) {
+	public void loadTexture(ByteBuffer texBuf, int num, int height, int width, int pixelFormat) {
 		int id = glGenTextures();
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + num);
 		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, texBuf);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalGlFormat, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, texBuf);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
-		textureId = id;
+		textureId[num] = id;
 	}
 }

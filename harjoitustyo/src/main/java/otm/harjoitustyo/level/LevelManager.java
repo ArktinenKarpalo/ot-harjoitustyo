@@ -357,6 +357,7 @@ public class LevelManager implements Scene {
 		background.delete();
 
 		Renderer.getInstance().deleteDrawable(scoreText);
+		Renderer.getInstance().deleteDrawable(comboText);
 		scoreText.delete();
 		comboText.delete();
 

@@ -38,4 +38,4 @@ Tulokset löytyvät tiedostosta `target/site/apidocs/index.html`
 
 [Arkkitehtuuri](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/arkkitehtuuri.md)
 
-[Release 1](https://github.com/ArktinenKarpalo/otm-harjoitustyo/releases/tag/v0.1)
+[Loppupalautus release](https://github.com/ArktinenKarpalo/otm-harjoitustyo/releases/tag/v1.0)

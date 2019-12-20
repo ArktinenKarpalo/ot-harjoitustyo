@@ -32,6 +32,8 @@ Tulokset löytyvät tiedostosta `target/site/apidocs/index.html`
 
 [Vaatimusmäärittely](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/vaatimusmarittely.md)
 
+[Testausdokumentti](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/testausdokumentti.md)
+
 [Tuntikirjanpito](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/tuntikirjanpito.MD)
 
 [Arkkitehtuuri](https://github.com/ArktinenKarpalo/otm-harjoitustyo/blob/master/harjoitustyo/docs/arkkitehtuuri.md)

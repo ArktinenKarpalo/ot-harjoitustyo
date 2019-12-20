@@ -21,16 +21,16 @@ public class DatabaseTest {
 
 	@Test
 	public void submitScoreTest() {
-		hdb.submitScore("a", "b", 0);
-		hdb.submitScore("a", "b", 1);
+		hdb.submitScore("a", "b", 0L);
+		hdb.submitScore("a", "b", 1L);
 		Assert.assertEquals(2, hdb.getScores("b").size());
 	}
 
 	@Test
 	public void getScoreTest() {
-		hdb.submitScore("a", "b", 0);
-		hdb.submitScore("a", "b", 1);
-		hdb.submitScore("a", "c", 1);
+		hdb.submitScore("a", "b", 0L);
+		hdb.submitScore("a", "b", 1L);
+		hdb.submitScore("a", "c", 1L);
 		List<HighscoreDatabase.Highscore> scores = hdb.getScores("b");
 		Assert.assertEquals(2, scores.size());
 	}

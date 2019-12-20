@@ -82,12 +82,12 @@ public class HighscoreDatabase {
 	 * @param levelName Name of the level
 	 * @param score Score of the player's current attempt
 	 */
-	public void submitScore(String nickname, String levelName, int score) {
+	public void submitScore(String nickname, String levelName, long score) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Scores(nickname, levelname, score, date) VALUES(?,?,?,?)");
 			ps.setString(1, nickname);
 			ps.setString(2, levelName);
-			ps.setInt(3, score);
+			ps.setLong(3, score);
 			ps.setInt(4, (int) (System.currentTimeMillis() / 1000L));
 			ps.execute();
 

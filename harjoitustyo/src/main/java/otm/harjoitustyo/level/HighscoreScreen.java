@@ -15,7 +15,8 @@ public class HighscoreScreen implements Scene {
 
 	private boolean hasEnded;
 	private State state;
-	private int score, scoreListOffset;
+	private long score;
+	private int scoreListOffset;
 	private String levelName, nick = "";
 	private Text instruction, nickText;
 	private List<HighscoreDatabase.Highscore> scores;
@@ -23,7 +24,7 @@ public class HighscoreScreen implements Scene {
 	private List<Text> tableTexts;
 	private List<Drawable> displayDrawables;
 
-	public HighscoreScreen(String levelName, int score) {
+	public HighscoreScreen(String levelName, long score) {
 		this.levelName = levelName;
 		this.score = score;
 		this.state = State.WAITING_NICK;

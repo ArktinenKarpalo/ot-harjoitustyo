@@ -27,11 +27,11 @@ public class LevelManager implements Scene {
 	private Level level;
 	private long startTime, duration;
 	boolean running;
-	int score = 0;
+	long score = 0, combo = 0;
 
 	private VideoDecoder videoDecoder;
 
-	private Text scoreText;
+	private Text scoreText, comboText;
 
 	PriorityQueue<TimedEvent> timedEvents = new PriorityQueue<>();
 
@@ -44,6 +44,7 @@ public class LevelManager implements Scene {
 
 	int[] heldEventAccuracy = new int[4];
 	LevelEvent[] heldEvent = new LevelEvent[4]; // KEY_HOLD event associated with current keydown hold
+	Sprite[] heldEventSprite = new Sprite[4];
 
 	List<Drawable> drawables; // List of drawables to delete in end of the level
 
@@ -61,25 +62,37 @@ public class LevelManager implements Scene {
 		return running;
 	}
 
-	// accuracy = missed by x milliseconds
-	public int eventScore(int accuracy) {
+	// accuracy = missed by x milliseconds, will change sprites color according to the accuracy
+	public long eventScore(int accuracy, Sprite sprite) {
 		accuracy = Math.abs(accuracy);
+		if(accuracy > 350) {
+			setCombo(0);
+			sprite.setColor(200, 200, 200, 120);
+			return 0;
+		}
+		setCombo(combo+1);
 		if(accuracy <= 50) {
-			return 300;
+			sprite.setColor(0, 255, 0, 120);
+			return 300 * combo;
 		} else if(accuracy <= 100) {
-			return 250;
+			sprite.setColor(100, 255, 0, 120);
+			return 250 * combo;
 		} else if(accuracy <= 150) {
-			return 150;
+			sprite.setColor(200, 255, 0, 120);
+			return 150 * combo;
 		} else if(accuracy <= 200) {
-			return 100;
+			sprite.setColor(255, 255, 0, 120);
+			return 100 * combo;
 		} else if(accuracy <= 350) {
-			return 50;
+			sprite.setColor(255, 0, 0, 120);
+			return 50 * combo;
 		}
 		return 0;
 	}
 
 	public void loadLevel() {
 		level.init();
+		this.duration = AudioManager.getInstance().loadFile(level.musicPath).getDuration();
 
 		if(level.backgroundType.equals("video")) {
 			videoDecoder = new VideoDecoder(level.backgroundPath);
@@ -145,8 +158,12 @@ public class LevelManager implements Scene {
 		scoreText.setPosition(50, 80);
 		Renderer.getInstance().addDrawable(scoreText);
 
-		this.duration = AudioManager.getInstance().loadFile(level.musicPath).getDuration();
-		AudioManager.getInstance().playAudio(level.musicPath);
+		comboText = new Text(Long.toString(combo) + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
+		comboText.setPosition(1000, 80);
+		comboText.setColor(0, 0, 0, 255);
+		Renderer.getInstance().addDrawable(comboText);
+
+		//AudioManager.getInstance().playAudio(level.musicPath);
 		startTime = System.currentTimeMillis();
 
 		running = true;
@@ -200,7 +217,7 @@ public class LevelManager implements Scene {
 			if(levelEventSprites[i] != null) {
 				levelEventSprites[i].setPosition(keyX[level.levelEvents[i].key], -(now - startTime - level.levelEvents[i].time) * level.scrollingSpeed + 90);
 				if(now - startTime - level.levelEvents[i].time > 0) {
-					levelEventSprites[i].setColor(200, 200, 200, 120);
+					//levelEventSprites[i].setColor(200, 200, 200, 120);
 				}
 			}
 		}
@@ -216,6 +233,16 @@ public class LevelManager implements Scene {
 		Renderer.getInstance().addDrawable(scoreText);
 	}
 
+	private void setCombo(long combo) {
+		this.combo = combo;
+		Renderer.getInstance().deleteDrawable(comboText);
+		comboText.delete();
+		comboText = new Text(Long.toString(combo) + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
+		comboText.setPosition(1000, 80);
+		comboText.setColor(0, 0, 0, 255);
+		Renderer.getInstance().addDrawable(comboText);
+	}
+
 	private void pressKey(int key) {
 		long now = System.currentTimeMillis();
 
@@ -225,11 +252,12 @@ public class LevelManager implements Scene {
 
 		keyPressIndicators[key].setColor(250, 50, 250, 240);
 
-		int future = levelEventPointer, past = levelEventPointer - 1;
+		int future = levelEventPointer, past = levelEventPointer - 1, closestEventIndex=-1;
 		LevelEvent closestEvent = null;
 		while(future < level.levelEvents.length) {
 			if((level.levelEvents[future].type == LevelEventType.KEY_HOLD || level.levelEvents[future].type == LevelEventType.KEY_PRESS) && level.levelEvents[future].key == key && !level.levelEvents[future].consumed) {
 				closestEvent = level.levelEvents[future];
+				closestEventIndex = future;
 				break;
 			}
 			future++;
@@ -238,6 +266,7 @@ public class LevelManager implements Scene {
 			if((level.levelEvents[past].type == LevelEventType.KEY_HOLD || level.levelEvents[past].type == LevelEventType.KEY_PRESS) && level.levelEvents[past].key == key && !level.levelEvents[past].consumed) {
 				if(closestEvent == null || (now - startTime) - level.levelEvents[past].time < closestEvent.time - (now - startTime)) {
 					closestEvent = level.levelEvents[past];
+					closestEventIndex = past;
 				}
 				break;
 			}
@@ -245,11 +274,12 @@ public class LevelManager implements Scene {
 		}
 		if(closestEvent != null && Math.abs((now - startTime) - closestEvent.time) < 1500) {
 			if(closestEvent.type == LevelEventType.KEY_PRESS) {
-				score += eventScore(Math.round(closestEvent.time - (now - startTime)));
+				score += eventScore(Math.round(closestEvent.time - (now - startTime)), levelEventSprites[closestEventIndex]);
 				updateScoreText();
 
 			} else if(closestEvent.type == LevelEventType.KEY_HOLD) {
 				heldEvent[key] = closestEvent;
+				heldEventSprite[key] = levelEventSprites[closestEventIndex];
 				heldEventAccuracy[key] = Math.round(closestEvent.time - (now - startTime));
 			}
 			closestEvent.consumed = true;
@@ -261,7 +291,7 @@ public class LevelManager implements Scene {
 		keyPressIndicators[key].setColor(250, 170, 100, 240);
 		if(heldEvent[key] != null) {
 			if(Math.abs(now - startTime - (heldEvent[key].time + heldEvent[key].duration)) <= 1500) {
-				score += eventScore(heldEventAccuracy[key]);
+				score += eventScore(heldEventAccuracy[key], heldEventSprite[key]);
 				updateScoreText();
 			}
 			heldEvent[key] = null;

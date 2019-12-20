@@ -12,9 +12,7 @@ Projekti sijaitsee harjoitustyo-nimisessä kansiossa, jonka sisällä seuraavat 
 Testit voidaan suorittaa seuraavalla komennolla
 ```mvn test```
 
-Raportti Suoritetuista testeistä voidaan suorittaa seuraavalla komennolla
-```jacoco:report```
-Tulokset löytyy tiedostosta `target/site/jacoco/index.html`
+Tulokset löytyvät tiedostosta `target/site/jacoco/index.html`
 
 ### Jar
 Sovelluksen voi paketoida jar-tiedostoon seuraavalla komennolla

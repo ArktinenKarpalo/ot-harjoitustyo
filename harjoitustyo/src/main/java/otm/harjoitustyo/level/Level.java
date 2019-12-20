@@ -16,6 +16,7 @@ public class Level {
 		this.musicPath = musicPath;
 		this.scrollingSpeed = scrollingSpeed;
 		this.levelEvents = levelEvents;
+		init();
 	}
 
 	public void init() {

@@ -52,6 +52,7 @@ import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.level.Level;
 import otm.harjoitustyo.level.LevelLoader;
 import otm.harjoitustyo.level.LevelManager;
+import otm.harjoitustyo.level.LevelSelectScreen;
 import otm.harjoitustyo.level.Scene;
 
 public class Game {
@@ -138,11 +139,8 @@ public class Game {
 		double prevTime = glfwGetTime();
 		int frames = 0;
 
-		Level testLevel = LevelLoader.loadLevel("level1.zip");
-		testLevel.init();
-		LevelManager lm = new LevelManager(testLevel);
-		currentScene = lm;
-		lm.loadLevel();
+		LevelSelectScreen lss = new LevelSelectScreen();
+		currentScene = lss;
 
 		while(!glfwWindowShouldClose(window)) {
 			if(frames == 1) {

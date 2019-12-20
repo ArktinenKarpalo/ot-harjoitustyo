@@ -163,7 +163,7 @@ public class LevelManager implements Scene {
 		comboText.setColor(0, 0, 0, 255);
 		Renderer.getInstance().addDrawable(comboText);
 
-		//AudioManager.getInstance().playAudio(level.musicPath);
+		AudioManager.getInstance().playAudio(level.musicPath);
 		startTime = System.currentTimeMillis();
 
 		running = true;
@@ -352,6 +352,7 @@ public class LevelManager implements Scene {
 
 		Renderer.getInstance().deleteDrawable(scoreText);
 		scoreText.delete();
+		comboText.delete();
 
 		drawables.stream().forEach((drawable) -> {
 			Renderer.getInstance().deleteDrawable(drawable);

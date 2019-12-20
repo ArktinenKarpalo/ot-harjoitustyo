@@ -20,6 +20,7 @@ public class HighscoreScreen implements Scene {
 	private String levelName, nick = "";
 	private Text instruction, nickText;
 	private List<HighscoreDatabase.Highscore> scores;
+	private Scene nextScene;
 
 	private List<Text> tableTexts;
 	private List<Drawable> displayDrawables;
@@ -114,7 +115,7 @@ public class HighscoreScreen implements Scene {
 
 	public Scene nextScene() {
 		if(hasEnded) {
-			return null;
+			return nextScene;
 		} else {
 			return this;
 		}
@@ -153,6 +154,7 @@ public class HighscoreScreen implements Scene {
 				displayClose();
 				hasEnded = true;
 				state = null;
+				nextScene = new LevelSelectScreen();
 			}
 		}
 	}

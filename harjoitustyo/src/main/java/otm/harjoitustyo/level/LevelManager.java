@@ -67,24 +67,30 @@ public class LevelManager implements Scene {
 		accuracy = Math.abs(accuracy);
 		if(accuracy > 350) {
 			setCombo(0);
-			sprite.setColor(200, 200, 200, 120);
+			if(sprite != null)
+				sprite.setColor(200, 200, 200, 120);
 			return 0;
 		}
 		setCombo(combo+1);
 		if(accuracy <= 50) {
-			sprite.setColor(0, 255, 0, 120);
+			if(sprite != null)
+				sprite.setColor(0, 255, 0, 120);
 			return 300 * combo;
 		} else if(accuracy <= 100) {
-			sprite.setColor(100, 255, 0, 120);
+			if(sprite != null)
+				sprite.setColor(100, 255, 0, 120);
 			return 250 * combo;
 		} else if(accuracy <= 150) {
-			sprite.setColor(200, 255, 0, 120);
+			if(sprite != null)
+				sprite.setColor(200, 255, 0, 120);
 			return 150 * combo;
 		} else if(accuracy <= 200) {
-			sprite.setColor(255, 255, 0, 120);
+			if(sprite != null)
+				sprite.setColor(255, 255, 0, 120);
 			return 100 * combo;
 		} else if(accuracy <= 350) {
-			sprite.setColor(255, 0, 0, 120);
+			if(sprite != null)
+				sprite.setColor(255, 0, 0, 120);
 			return 50 * combo;
 		}
 		return 0;

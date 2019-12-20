@@ -11,7 +11,7 @@ public class DatabaseTest {
 
 	@Before
 	public void init() {
-		hdb = new HighscoreDatabase("jdbc:sqlite:memory");
+		hdb = new HighscoreDatabase("jdbc:sqlite::memory:");
 	}
 
 	@After

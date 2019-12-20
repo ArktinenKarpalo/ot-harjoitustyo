@@ -19,19 +19,29 @@ public class Renderer {
 		drawables = new HashSet<>();
 	}
 
+	/**
+	 * Add a drawable to the list of drawables that are drawn during each call to Renderer
+	 * @param drawable Drawable to add
+	 */
 	public void addDrawable(Drawable... drawable) {
 		for(Drawable d : drawable) {
 			drawables.add(d);
 		}
 	}
 
-	// Only deletes drawable from the render list, drawable must be deleted separately to free GPU resources
+	/**
+	 * Only deletes the drawable from the render list, drawable must be deleted separately to free memory-resources.
+	 * @param drawable Drawable to delete
+	 */
 	public void deleteDrawable(Drawable... drawable) {
 		for(Drawable d : drawable) {
 			drawables.remove(d);
 		}
 	}
 
+	/**
+	 * Draw all drawables in the drawable list in order of z-level
+	 */
 	public void drawAll() {
 		Drawable[] drawList = new Drawable[drawables.size()];
 		Iterator<Drawable> it = drawables.iterator();

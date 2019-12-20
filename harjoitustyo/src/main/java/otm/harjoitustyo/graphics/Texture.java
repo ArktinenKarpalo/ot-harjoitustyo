@@ -120,7 +120,6 @@ public class Texture {
 		textureId[0] = id;
 	}
 
-	// texbuf color format BGR
 	public void loadTexture(ByteBuffer texBuf, int num, int height, int width, int pixelFormat) {
 		int id = glGenTextures();
 		glActiveTexture(GL_TEXTURE0 + num);

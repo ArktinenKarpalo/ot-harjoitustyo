@@ -36,6 +36,10 @@ public class ShaderManager {
 		frameShader.setUniform1i("texture3", 2);
 	}
 
+	/**
+	 * Switch OpenGL to use the given shaderprogram
+	 * @param shader
+	 */
 	public void useShader(ShaderProgram shader) {
 		if(currentShaderProgram != shader.getShaderProgramId()) {
 			glUseProgram(shader.getShaderProgramId());

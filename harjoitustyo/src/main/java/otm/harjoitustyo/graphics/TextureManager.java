@@ -1,11 +1,5 @@
 package otm.harjoitustyo.graphics;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
-
 import java.util.HashMap;
 
 public class TextureManager {
@@ -29,7 +23,11 @@ public class TextureManager {
 		}
 	}
 
-	// Even after set texture, getTexture should be used to keep texture references correct
+	/**
+	 * Even after set texture, getTexture should be used to keep texture references correct
+	 * @param name
+	 * @param texture
+	 */
 	public void setTexture(String name, Texture texture) {
 		Texture previous = loadedTextures.put(name, texture);
 		if(previous != null) {
@@ -37,7 +35,10 @@ public class TextureManager {
 		}
 	}
 
-	// If texture is not found, returns null
+	/**
+	 * @param name Name of the texture
+	 * @return Null if not found
+	 */
 	public Texture getTexture(String name) {
 		Texture texture = loadedTextures.get(name);
 		if(texture != null) {
@@ -46,7 +47,11 @@ public class TextureManager {
 		return texture;
 	}
 
-	// If texture is not found, attemps to load it from the disk
+	/**
+	 * Attempts to load the texture from disk if it is not found.
+	 * @param name
+	 * @return
+	 */
 	public Texture getFileTexture(String name) {
 		Texture texture = loadedTextures.get(name);
 		if(texture == null) {

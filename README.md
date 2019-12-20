@@ -18,7 +18,7 @@ Tulokset löytyy tiedostosta `target/site/jacoco/index.html`
 
 ### Jar
 Sovelluksen voi paketoida jar-tiedostoon seuraavalla komennolla
-```mvn package```
+```mvn package -Djavacpp.platform.custom -Djavacpp.platform.host -Djavacpp.platform.linux-x86_64 -Djavacpp.platform.windows-x86_64 -Djavacpp.platform.macosx-x86_64```
 Jar-tiedosto riippuvuuksineen sijaitsee `target/Harjoitustyo-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 ### Checkstyle

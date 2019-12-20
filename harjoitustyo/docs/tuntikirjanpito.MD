@@ -19,4 +19,5 @@
 |19.12.|5h|Videodecoding refaktorointi|
 |20.12.|6h|Sekalaiset parannukset|
 |20.12|3h|Dokumentaatio|
-|Yhteensä|70.5h|Päivitetty 3.12.|
+|20.12|3h|Tasojen parantelu|
+|Yhteensä|69.5h|Päivitetty 21.12.|

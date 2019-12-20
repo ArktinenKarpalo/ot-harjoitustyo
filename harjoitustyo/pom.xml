@@ -33,12 +33,14 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
+						<exclude>otm/harjoitustyo/graphics/text/*</exclude>
 						<exclude>otm/harjoitustyo/graphics/*</exclude>
 						<exclude>otm/harjoitustyo/audio/*</exclude>
 						<exclude>otm/harjoitustyo/Main*</exclude>
 						<exclude>otm/harjoitustyo/Game*</exclude>
 						<exclude>otm/harjoitustyo/level/LevelManager*</exclude>
 						<exclude>otm/harjoitustyo/level/HighscoreScreen*</exclude>
+						<exclude>otm/harjoitustyo/level/LevelSelectScreen*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

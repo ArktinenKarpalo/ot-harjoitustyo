@@ -15,4 +15,8 @@
 |2.12.|½h|Ominaisuuksien suunnittelu|
 |3.12.|4h|Tason teko + viikon 5 deadline|
 |10.12.|4h|Highscore + viikon 6 deadlinet|
-|Yhteensä|49.5h|Päivitetty 3.12.|
+|18.12|3h|Freetypen vaihto STB TrueFont ja windows tuki|
+|19.12.|5h|Videodecoding refaktorointi|
+|20.12.|6h|Sekalaiset parannukset|
+|20.12|3h|Dokumentaatio|
+|Yhteensä|70.5h|Päivitetty 3.12.|

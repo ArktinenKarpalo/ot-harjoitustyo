@@ -17,6 +17,7 @@ public class Resources {
 
 	/**
 	 * Used to load resources from the jar as string
+	 *
 	 * @param path path of the file in the jar
 	 * @return Returns the file as string, using \n as linebreak
 	 */
@@ -27,6 +28,7 @@ public class Resources {
 
 	/**
 	 * Used to load resources from the jar
+	 *
 	 * @param path path of the file in the jar
 	 * @return ByteBuffer allocated by LWJGL MemoryUtil, must be freed with memFree after usage
 	 */
@@ -61,6 +63,7 @@ public class Resources {
 
 	/**
 	 * The file gets deleted when the application is closed.
+	 *
 	 * @param path path to the file in the jar
 	 * @return Temporary copy of the file
 	 */

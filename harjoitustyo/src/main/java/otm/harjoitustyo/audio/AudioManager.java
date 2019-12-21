@@ -65,6 +65,7 @@ public class AudioManager {
 
 	/**
 	 * Loads and plays an audio file from the given path
+	 *
 	 * @param path Path to the audio in jar
 	 */
 	public void playAudio(String path) {
@@ -77,6 +78,7 @@ public class AudioManager {
 
 	/**
 	 * Loads the audio file from the given path
+	 *
 	 * @param path Path to the audio in jar
 	 * @return AudioBuffer-object containing audio from the given path
 	 */
@@ -91,6 +93,7 @@ public class AudioManager {
 
 	/**
 	 * Deletes buffer with the given path, if it has been loaded, freeing the memory
+	 *
 	 * @param path Path used to load the audiobuffer
 	 */
 	public void removeBuffer(String path) {

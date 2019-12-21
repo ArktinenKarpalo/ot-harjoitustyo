@@ -54,6 +54,7 @@ public class HighscoreDatabase {
 
 	/**
 	 * Used to get list of scores of a certain level from the database
+	 *
 	 * @param levelName Name of the level to get scores of
 	 * @return List of all saved scores for the level
 	 */
@@ -65,9 +66,9 @@ public class HighscoreDatabase {
 			ArrayList<Highscore> list = new ArrayList<>();
 			while(rs.next()) {
 				list.add(new Highscore(rs.getString("nickname"),
-					rs.getString("levelname"),
-					rs.getInt("score"),
-					rs.getInt("date")));
+								rs.getString("levelname"),
+								rs.getInt("score"),
+								rs.getInt("date")));
 			}
 			return list;
 		} catch(SQLException e) {
@@ -78,9 +79,10 @@ public class HighscoreDatabase {
 
 	/**
 	 * Saves a row with given parameters and current date as timestamp to the databse
-	 * @param nickname Nickname of the player
+	 *
+	 * @param nickname  Nickname of the player
 	 * @param levelName Name of the level
-	 * @param score Score of the player's current attempt
+	 * @param score     Score of the player's current attempt
 	 */
 	public void submitScore(String nickname, String levelName, long score) {
 		try {
@@ -109,11 +111,11 @@ public class HighscoreDatabase {
 
 	private void initTables() {
 		String sql = "CREATE TABLE IF NOT EXISTS Scores (" +
-			"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-			"nickname TEXT," +
-			"levelname TEXT," +
-			"score INTEGER," +
-			"date INTEGER)"; // unix-time
+						"id INTEGER PRIMARY KEY AUTOINCREMENT," +
+						"nickname TEXT," +
+						"levelname TEXT," +
+						"score INTEGER," +
+						"date INTEGER)"; // unix-time
 		try {
 			conn.prepareStatement(sql).execute();
 		} catch(SQLException e) {

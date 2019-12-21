@@ -19,6 +19,7 @@ public interface Scene {
 
 	/**
 	 * If the scene is active, game switches the scene to scene returned by this function in the end of the gameloop. Ie. should return the scene itself, if the scene doesn't change.
+	 *
 	 * @return Scene to switch to
 	 */
 	Scene nextScene();

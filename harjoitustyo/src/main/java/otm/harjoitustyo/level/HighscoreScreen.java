@@ -70,11 +70,11 @@ public class HighscoreScreen implements Scene {
 	}
 
 	private void displayClose() {
-		for(Drawable d:displayDrawables) {
+		for(Drawable d : displayDrawables) {
 			Renderer.getInstance().deleteDrawable(d);
 			d.delete();
 		}
-		for(Text t:tableTexts) {
+		for(Text t : tableTexts) {
 			Renderer.getInstance().deleteDrawable(t);
 			t.delete();
 		}
@@ -168,10 +168,5 @@ public class HighscoreScreen implements Scene {
 	}
 
 	public void loop() {
-		if(state == State.WAITING_NICK) {
-
-		} else if(state == State.DISPLAY_SCORES) {
-
-		}
 	}
 }

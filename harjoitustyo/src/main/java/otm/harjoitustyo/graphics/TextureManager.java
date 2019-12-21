@@ -25,6 +25,7 @@ public class TextureManager {
 
 	/**
 	 * Even after set texture, getTexture should be used to keep texture references correct
+	 *
 	 * @param name
 	 * @param texture
 	 */
@@ -49,6 +50,7 @@ public class TextureManager {
 
 	/**
 	 * Attempts to load the texture from disk if it is not found.
+	 *
 	 * @param name
 	 * @return
 	 */

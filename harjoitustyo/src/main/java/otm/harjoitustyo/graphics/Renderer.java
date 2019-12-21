@@ -21,6 +21,7 @@ public class Renderer {
 
 	/**
 	 * Add a drawable to the list of drawables that are drawn during each call to Renderer
+	 *
 	 * @param drawable Drawable to add
 	 */
 	public void addDrawable(Drawable... drawable) {
@@ -31,6 +32,7 @@ public class Renderer {
 
 	/**
 	 * Only deletes the drawable from the render list, drawable must be deleted separately to free memory-resources.
+	 *
 	 * @param drawable Drawable to delete
 	 */
 	public void deleteDrawable(Drawable... drawable) {

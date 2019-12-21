@@ -55,35 +55,35 @@ public class VideoDecoder implements Runnable {
 
 	@Override
 	public void run() {
-		AVFormatContext format_ctx = new AVFormatContext(null);
+		AVFormatContext formatCtx = new AVFormatContext(null);
 		AVPacket pkt = new AVPacket();
 
-		avformat.avformat_open_input(format_ctx, videoPath, null, null);
+		avformat.avformat_open_input(formatCtx, videoPath, null, null);
 
-		avformat.avformat_find_stream_info(format_ctx, (PointerPointer) null);
+		avformat.avformat_find_stream_info(formatCtx, (PointerPointer) null);
 
 		// Print info about format
-		avformat.av_dump_format(format_ctx, 0, videoPath, 0);
+		avformat.av_dump_format(formatCtx, 0, videoPath, 0);
 
-		int video_stream_index = -1;
-		for(int i = 0; i < format_ctx.nb_streams(); i++) {
-			if(format_ctx.streams(i).codecpar().codec_type() == avutil.AVMEDIA_TYPE_VIDEO) {
-				video_stream_index = i;
+		int videoStreamIndex = -1;
+		for(int i = 0; i < formatCtx.nb_streams(); i++) {
+			if(formatCtx.streams(i).codecpar().codec_type() == avutil.AVMEDIA_TYPE_VIDEO) {
+				videoStreamIndex = i;
 				break;
 			}
 		}
 
-		height = format_ctx.streams(video_stream_index).codecpar().height();
-		width = format_ctx.streams(video_stream_index).codecpar().width();
+		height = formatCtx.streams(videoStreamIndex).codecpar().height();
+		width = formatCtx.streams(videoStreamIndex).codecpar().width();
 
-		AVCodecContext codec_ctx = avcodec.avcodec_alloc_context3(null);
-		avcodec.avcodec_parameters_to_context(codec_ctx, format_ctx.streams(video_stream_index).codecpar());
+		AVCodecContext codecCtx = avcodec.avcodec_alloc_context3(null);
+		avcodec.avcodec_parameters_to_context(codecCtx, formatCtx.streams(videoStreamIndex).codecpar());
 
-		AVCodec codec = avcodec.avcodec_find_decoder(codec_ctx.codec_id());
-		avcodec.avcodec_open2(codec_ctx, codec, (PointerPointer) null);
+		AVCodec codec = avcodec.avcodec_find_decoder(codecCtx.codec_id());
+		avcodec.avcodec_open2(codecCtx, codec, (PointerPointer) null);
 
 		AVFrame frm = avutil.av_frame_alloc();
-		AVRational avratFramerate = avformat.av_guess_frame_rate(format_ctx, format_ctx.streams(video_stream_index), null);
+		AVRational avratFramerate = avformat.av_guess_frame_rate(formatCtx, formatCtx.streams(videoStreamIndex), null);
 		frameRate = ((double) avratFramerate.num()) / avratFramerate.den();
 		currentFrame = 1;
 
@@ -101,17 +101,17 @@ public class VideoDecoder implements Runnable {
 				}
 			}
 			currentFrame = 1;
-			avformat.av_seek_frame(format_ctx, video_stream_index, 0, avformat.AVSEEK_FLAG_ANY);
-			while(avformat.av_read_frame(format_ctx, pkt) >= 0) {
+			avformat.av_seek_frame(formatCtx, videoStreamIndex, 0, avformat.AVSEEK_FLAG_ANY);
+			while(avformat.av_read_frame(formatCtx, pkt) >= 0) {
 				synchronized(this) {
 					if(stop) {
 						break;
 					}
 				}
-				if(pkt.stream_index() == video_stream_index) {
+				if(pkt.stream_index() == videoStreamIndex) {
 					currentFrame++;
-					avcodec.avcodec_send_packet(codec_ctx, pkt);
-					int ret = avcodec.avcodec_receive_frame(codec_ctx, frm);
+					avcodec.avcodec_send_packet(codecCtx, pkt);
+					int ret = avcodec.avcodec_receive_frame(codecCtx, frm);
 					if(skipFramesRemaining > 0) {
 						skipFramesRemaining--;
 					} else {
@@ -159,7 +159,7 @@ public class VideoDecoder implements Runnable {
 		memFree(u);
 		memFree(v);
 		avutil.av_frame_free(frm);
-		avcodec.avcodec_close(codec_ctx);
-		avformat.avformat_close_input(format_ctx);
+		avcodec.avcodec_close(codecCtx);
+		avformat.avformat_close_input(formatCtx);
 	}
 }

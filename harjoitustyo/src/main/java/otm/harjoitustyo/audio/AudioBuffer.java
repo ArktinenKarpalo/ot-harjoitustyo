@@ -18,15 +18,14 @@ public class AudioBuffer {
 	private int bufferPointer;
 	private int duration; // In seconds
 
-	/** Can only handle .ogg files
-	 *
+	/**
+	 * Can only handle .ogg files
 	 */
 	public AudioBuffer(String path) {
 		load(path);
 	}
 
 	/**
-	 *
 	 * @return Pointer to OpenAL buffer
 	 */
 	public int getBufferPointer() {
@@ -35,6 +34,7 @@ public class AudioBuffer {
 
 	/**
 	 * Duration of the audio file that this buffer contains
+	 *
 	 * @return In seconds
 	 */
 	public int getDuration() {

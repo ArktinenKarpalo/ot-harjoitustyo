@@ -20,6 +20,7 @@ public class LevelSelectScreen implements Scene {
 
 	private class LevelItem {
 		public String name, filename;
+
 		public LevelItem(String name, String filename) {
 			this.filename = filename;
 			this.name = name;
@@ -34,7 +35,7 @@ public class LevelSelectScreen implements Scene {
 	private void init() {
 		String[] levelList = Resources.loadResourceAsString("levels/levels").split("\n");
 		levels = new LevelItem[levelList.length];
-		for(int i=0; i<levelList.length; i++) {
+		for(int i = 0; i < levelList.length; i++) {
 			String[] split = levelList[i].split(";");
 			levels[i] = new LevelItem(split[0], split[1]);
 		}
@@ -49,11 +50,11 @@ public class LevelSelectScreen implements Scene {
 	}
 
 	private void displayClose() {
-		for(Drawable d:displayDrawables) {
+		for(Drawable d : displayDrawables) {
 			Renderer.getInstance().deleteDrawable(d);
 			d.delete();
 		}
-		for(Text t:tableTexts) {
+		for(Text t : tableTexts) {
 			Renderer.getInstance().deleteDrawable(t);
 			t.delete();
 		}
@@ -73,8 +74,9 @@ public class LevelSelectScreen implements Scene {
 			Text levelName = new Text(levels[i].name, "OpenSans-Regular.ttf", 48, 1, 1001);
 			levelName.setPosition(150, 300 + 100 * (i - levelListOffset));
 
-			if(i == selectedIndex)
+			if(i == selectedIndex) {
 				levelName.setColor(200, 200, 0, 255);
+			}
 
 			Renderer.getInstance().addDrawable(levelName);
 			tableTexts.add(levelName);
@@ -93,13 +95,15 @@ public class LevelSelectScreen implements Scene {
 	public void handleKeyInput(long window, int key, int scancode, int action, int mods) {
 		if(key == GLFW.GLFW_KEY_UP && (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT)) {
 			levelListOffset--;
-			if(levelListOffset < 0)
-				levelListOffset = levels.length-1;
+			if(levelListOffset < 0) {
+				levelListOffset = levels.length - 1;
+			}
 			displayLevels();
 		} else if(key == GLFW.GLFW_KEY_DOWN && (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT)) {
 			levelListOffset++;
-			if(levelListOffset >= levels.length)
+			if(levelListOffset >= levels.length) {
 				levelListOffset = 0;
+			}
 			displayLevels();
 		} else if(key == GLFW.GLFW_KEY_ENTER && action == GLFW.GLFW_PRESS) {
 			displayClose();

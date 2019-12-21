@@ -38,6 +38,7 @@ public class ShaderManager {
 
 	/**
 	 * Switch OpenGL to use the given shaderprogram
+	 *
 	 * @param shader
 	 */
 	public void useShader(ShaderProgram shader) {

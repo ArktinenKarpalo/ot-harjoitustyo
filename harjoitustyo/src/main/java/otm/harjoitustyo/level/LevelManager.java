@@ -17,10 +17,10 @@ import otm.harjoitustyo.graphics.Drawable;
 import otm.harjoitustyo.graphics.Renderer;
 import otm.harjoitustyo.graphics.ShaderManager;
 import otm.harjoitustyo.graphics.Sprite;
-import otm.harjoitustyo.graphics.text.Text;
 import otm.harjoitustyo.graphics.Texture;
 import otm.harjoitustyo.graphics.TextureManager;
 import otm.harjoitustyo.graphics.VideoDecoder;
+import otm.harjoitustyo.graphics.text.Text;
 
 public class LevelManager implements Scene {
 
@@ -67,30 +67,36 @@ public class LevelManager implements Scene {
 		accuracy = Math.abs(accuracy);
 		if(accuracy > 350) {
 			setCombo(0);
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(200, 200, 200, 120);
+			}
 			return 0;
 		}
-		setCombo(combo+1);
+		setCombo(combo + 1);
 		if(accuracy <= 50) {
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(0, 255, 0, 120);
+			}
 			return 300 * combo;
 		} else if(accuracy <= 100) {
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(100, 255, 0, 120);
+			}
 			return 250 * combo;
 		} else if(accuracy <= 150) {
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(200, 255, 0, 120);
+			}
 			return 150 * combo;
 		} else if(accuracy <= 200) {
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(255, 255, 0, 120);
+			}
 			return 100 * combo;
 		} else if(accuracy <= 350) {
-			if(sprite != null)
+			if(sprite != null) {
 				sprite.setColor(255, 0, 0, 120);
+			}
 			return 50 * combo;
 		}
 		return 0;
@@ -164,7 +170,7 @@ public class LevelManager implements Scene {
 		scoreText.setPosition(50, 80);
 		Renderer.getInstance().addDrawable(scoreText);
 
-		comboText = new Text(Long.toString(combo) + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
+		comboText = new Text(combo + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
 		comboText.setPosition(1000, 80);
 		comboText.setColor(0, 0, 0, 255);
 		Renderer.getInstance().addDrawable(comboText);
@@ -204,8 +210,8 @@ public class LevelManager implements Scene {
 				}
 
 				Texture texture = new Texture(videoDecoder.y, videoDecoder.height, videoDecoder.width, GL11.GL_RED, GL11.GL_RED);
-				texture.loadTexture(videoDecoder.u, 1, videoDecoder.height/2, videoDecoder.width/2, GL11.GL_RED);
-				texture.loadTexture(videoDecoder.v, 2, videoDecoder.height/2, videoDecoder.width/2, GL11.GL_RED);
+				texture.loadTexture(videoDecoder.u, 1, videoDecoder.height / 2, videoDecoder.width / 2, GL11.GL_RED);
+				texture.loadTexture(videoDecoder.v, 2, videoDecoder.height / 2, videoDecoder.width / 2, GL11.GL_RED);
 				TextureManager.getInstance().setTexture("frame", texture);
 				background.setTexture(TextureManager.getInstance().getTexture("frame"));
 
@@ -222,9 +228,6 @@ public class LevelManager implements Scene {
 		for(int i = 0; i < levelEventSprites.length; i++) {
 			if(levelEventSprites[i] != null) {
 				levelEventSprites[i].setPosition(keyX[level.levelEvents[i].key], -(now - startTime - level.levelEvents[i].time) * level.scrollingSpeed + 90);
-				if(now - startTime - level.levelEvents[i].time > 0) {
-					//levelEventSprites[i].setColor(200, 200, 200, 120);
-				}
 			}
 		}
 	}
@@ -243,7 +246,7 @@ public class LevelManager implements Scene {
 		this.combo = combo;
 		Renderer.getInstance().deleteDrawable(comboText);
 		comboText.delete();
-		comboText = new Text(Long.toString(combo) + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
+		comboText = new Text(combo + "x", "OpenSans-Regular.ttf", 72, 1, 1001);
 		comboText.setPosition(1000, 80);
 		comboText.setColor(0, 0, 0, 255);
 		Renderer.getInstance().addDrawable(comboText);
@@ -258,7 +261,7 @@ public class LevelManager implements Scene {
 
 		keyPressIndicators[key].setColor(250, 50, 250, 240);
 
-		int future = levelEventPointer, past = levelEventPointer - 1, closestEventIndex=-1;
+		int future = levelEventPointer, past = levelEventPointer - 1, closestEventIndex = -1;
 		LevelEvent closestEvent = null;
 		while(future < level.levelEvents.length) {
 			if((level.levelEvents[future].type == LevelEventType.KEY_HOLD || level.levelEvents[future].type == LevelEventType.KEY_PRESS) && level.levelEvents[future].key == key && !level.levelEvents[future].consumed) {

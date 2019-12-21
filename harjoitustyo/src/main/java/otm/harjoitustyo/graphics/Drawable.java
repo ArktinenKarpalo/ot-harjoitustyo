@@ -9,6 +9,7 @@ public interface Drawable {
 
 	/**
 	 * Drawables are drawn so that smallest Z-level gets drawn in the back, largest in the front.
+	 *
 	 * @return Z-level of the drawable
 	 */
 	int getZ();
